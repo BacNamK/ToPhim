@@ -22,7 +22,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav ref={navRef} className="nav fixed w-full h-[10%] p-2 z-10">
+    <nav ref={navRef} className="nav fixed z-20 w-full h-[10%] p-2">
       {/* 1 */}
       <div className="flex items-center h-full">
         {/* 1-2 */}
@@ -49,7 +49,34 @@ const Navbar = () => {
           <ul className="w-full flex gap-8 text-white ml-10 text-sm">
             <li className="hover:text-orange-200 cursor-pointer">Phim Lẻ</li>
             <li className="hover:text-orange-200 cursor-pointer">Phim bộ</li>
-            <li className="hover:text-orange-200 cursor-pointer">Thể Loại</li>
+            <li className="group relative hover:text-orange-200 cursor-pointer">
+              <div>
+                Thể Loại <span className="text-[10px]">&#9660;</span>
+              </div>
+              <div
+                className="absolute top-full left-0 mt-2 
+                  min-w-[200px] bg-[#191B24] 
+                  rounded-md shadow-lg
+                  opacity-0 invisible 
+                  group-hover:opacity-100 group-hover:visible
+                  transition-all duration-200"
+              >
+                <ul className="flex flex-col text-white p-3 gap-2 text-sm">
+                  <li className="hover:text-orange-300 cursor-pointer">
+                    Bom Tấn
+                  </li>
+                  <li className="hover:text-orange-300 cursor-pointer">
+                    Thần Thoại
+                  </li>
+                  <li className="hover:text-orange-300 cursor-pointer">
+                    Âm Nhạc
+                  </li>
+                  <li className="hover:text-orange-300 cursor-pointer">
+                    Thể Thao
+                  </li>
+                </ul>
+              </div>
+            </li>
             <li className="hover:text-orange-200 cursor-pointer">Quốc gia</li>
             <li className="hover:text-orange-200 cursor-pointer">TV Show</li>
             <li className="hover:text-orange-200 cursor-pointer">
@@ -59,10 +86,13 @@ const Navbar = () => {
         </div>
         {/* 1-5 */}
         <div className="w-[25%] flex justify-end gap-2">
-          <div className="flex w-[50%] hover:bg-white/5 hover:shadow justify-center items-center rounded-full mr-5 p-1 gap-2 cursor-pointer">
+          <Link
+            to={"manager"}
+            className="flex w-[50%] hover:bg-white/5 hover:shadow justify-center items-center rounded-full mr-5 p-1 gap-2 cursor-pointer"
+          >
             <img src={IconKey} alt="" className="size-5" />
             <span className="text-sm text-white">Quản Trị Viên</span>
-          </div>
+          </Link>
           <Link
             to={"join"}
             className="flex w-[50%] bg-white justify-center items-center rounded-full mr-5 p-1 gap-1"

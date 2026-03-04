@@ -8,6 +8,7 @@ import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./Page/Home/Home";
 import ReLog from "./Page/Register&Login/Register&Login";
+import Manager from "./Page/Manager/Manager";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,6 +18,7 @@ root.render(
         <Route element={<ItemOutlet />}>
           <Route path="/" element={<Home />}></Route>
           <Route path="join" element={<ReLog />}></Route>
+          <Route path="manager" element={<Manager />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

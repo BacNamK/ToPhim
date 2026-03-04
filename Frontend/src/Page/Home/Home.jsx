@@ -1,8 +1,6 @@
 import BgImage from "../../image/ImageTest1.jpg";
 
 const Home = () => {
-  localStorage.setItem("FirstPoint", 0);
-
   return (
     <>
       <div className="relative w-full h-screen">
