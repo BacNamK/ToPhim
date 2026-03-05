@@ -1,108 +1,156 @@
+import { useEffect, useRef, useState } from "react";
+import { Link } from "react-router";
 import Search from "../../Image/search.png";
 import ToCom from "../../Image/IconToCom.png";
 import IconUser from "../../Image/user.png";
 import IconKey from "../../Image/key.png";
-import { useEffect, useRef } from "react";
-import { Link } from "react-router";
 
 const Navbar = () => {
   const navRef = useRef(null);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const syncUserFromStorage = () => {
+    try {
+      const storedUser = localStorage.getItem("user");
+      setCurrentUser(storedUser ? JSON.parse(storedUser) : null);
+    } catch (error) {
+      setCurrentUser(null);
+    }
+  };
 
   useEffect(() => {
+    syncUserFromStorage();
+
     const handleScroll = () => {
-      if (window.scrollY > 0) {
-        navRef.current.style.background = "#191B24";
-      } else {
-        navRef.current.style.background = "transparent";
-      }
+      if (!navRef.current) return;
+      navRef.current.style.background = window.scrollY > 0 ? "#191B24" : "transparent";
+    };
+
+    const handleAuthChanged = () => {
+      syncUserFromStorage();
     };
 
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("auth-changed", handleAuthChanged);
+    window.addEventListener("storage", handleAuthChanged);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("auth-changed", handleAuthChanged);
+      window.removeEventListener("storage", handleAuthChanged);
+    };
   }, []);
 
   return (
-    <nav ref={navRef} className="nav fixed z-20 w-full h-[10%] p-2">
-      {/* 1 */}
-      <div className="flex items-center h-full">
-        {/* 1-2 */}
-        <Link to={""} className="flex w-[12%] gap-2 ml-2 cursor-pointer">
-          <div className="shadow size-12 rounded-full">
-            <img src={ToCom} alt="" />
+    <nav ref={navRef} className="fixed z-20 w-full px-3 py-2 transition-colors">
+      <div className="mx-auto flex max-w-screen-2xl items-center gap-3">
+        <Link to={""} className="ml-1 flex items-center gap-2">
+          <div className="size-10 rounded-full shadow sm:size-12">
+            <img src={ToCom} alt="Logo" />
           </div>
           <div className="grid gap-y-0 text-white">
-            <h1 className="font-bold text-2xl">ToPhim</h1>
-            <span className="text-xs">Vừa ăn vừa xem</span>
+            <h1 className="text-xl font-bold sm:text-2xl">ToPhim</h1>
+            <span className="text-[10px] sm:text-xs">Vừa ăn vừa xem</span>
           </div>
         </Link>
-        {/* 1-3 */}
-        <div className="flex w-[25%] h-[65%] items-center bg-white/30 rounded-md p-2 pl-4">
-          <img className="size-5 rounded-full scale-110" src={Search} alt="" />
+
+        <div className="hidden h-10 flex-1 items-center rounded-md bg-white/30 px-3 sm:flex lg:max-w-xs">
+          <img className="size-5 rounded-full scale-110" src={Search} alt="Search" />
           <input
             type="text"
-            placeholder="Tìm Kiếm phim"
-            className="w-full pl-4 bg-transparent pr-2 placeholder:text-white placeholder:font-sans outline-none"
+            placeholder="Tìm kiếm phim"
+            className="w-full bg-transparent pl-3 pr-2 placeholder:font-sans placeholder:text-white outline-none"
           />
         </div>
-        {/* 1-4 */}
-        <div className="flex w-[40%] h-full items-center">
-          <ul className="w-full flex gap-8 text-white ml-10 text-sm">
-            <li className="hover:text-orange-200 cursor-pointer">Phim Lẻ</li>
-            <li className="hover:text-orange-200 cursor-pointer">Phim bộ</li>
-            <li className="group relative hover:text-orange-200 cursor-pointer">
+
+        <div className="hidden flex-1 items-center lg:flex">
+          <ul className="ml-8 flex w-full gap-8 text-sm text-white">
+            <li className="cursor-pointer hover:text-orange-200">Phim Lẻ</li>
+            <li className="cursor-pointer hover:text-orange-200">Phim Bộ</li>
+            <li className="group relative cursor-pointer hover:text-orange-200">
               <div>
                 Thể Loại <span className="text-[10px]">&#9660;</span>
               </div>
               <div
-                className="absolute top-full left-0 mt-2 
-                  min-w-[200px] bg-[#191B24] 
-                  rounded-md shadow-lg
-                  opacity-0 invisible 
-                  group-hover:opacity-100 group-hover:visible
-                  transition-all duration-200"
+                className="absolute left-0 top-full mt-2 min-w-[200px] rounded-md bg-[#191B24]
+                  shadow-lg opacity-0 invisible transition-all duration-200 group-hover:visible
+                  group-hover:opacity-100"
               >
-                <ul className="flex flex-col text-white p-3 gap-2 text-sm">
-                  <li className="hover:text-orange-300 cursor-pointer">
-                    Bom Tấn
-                  </li>
-                  <li className="hover:text-orange-300 cursor-pointer">
-                    Thần Thoại
-                  </li>
-                  <li className="hover:text-orange-300 cursor-pointer">
-                    Âm Nhạc
-                  </li>
-                  <li className="hover:text-orange-300 cursor-pointer">
-                    Thể Thao
-                  </li>
+                <ul className="flex flex-col gap-2 p-3 text-sm text-white">
+                  <li className="cursor-pointer hover:text-orange-300">Bom Tấn</li>
+                  <li className="cursor-pointer hover:text-orange-300">Thần Thoại</li>
+                  <li className="cursor-pointer hover:text-orange-300">Âm Nhạc</li>
+                  <li className="cursor-pointer hover:text-orange-300">Thể Thao</li>
                 </ul>
               </div>
             </li>
-            <li className="hover:text-orange-200 cursor-pointer">Quốc gia</li>
-            <li className="hover:text-orange-200 cursor-pointer">TV Show</li>
-            <li className="hover:text-orange-200 cursor-pointer">
-              Phim Chiếu Rạp
-            </li>
+            <li className="cursor-pointer hover:text-orange-200">Quốc Gia</li>
+            <li className="cursor-pointer hover:text-orange-200">TV Show</li>
+            <li className="cursor-pointer hover:text-orange-200">Phim Chiếu Rạp</li>
           </ul>
         </div>
-        {/* 1-5 */}
-        <div className="w-[25%] flex justify-end gap-2">
-          <Link
-            to={"manager"}
-            className="flex w-[50%] hover:bg-white/5 hover:shadow justify-center items-center rounded-full mr-5 p-1 gap-2 cursor-pointer"
-          >
-            <img src={IconKey} alt="" className="size-5" />
-            <span className="text-sm text-white">Quản Trị Viên</span>
-          </Link>
-          <Link
-            to={"join"}
-            className="flex w-[50%] bg-white justify-center items-center rounded-full mr-5 p-1 gap-1"
-          >
-            <img src={IconUser} alt="" className="size-4" />
-            <span className="text-sm">Đăng Nhập</span>
+
+        <div className="ml-auto hidden items-center justify-end gap-2 sm:flex">
+          {currentUser?.isadmin && (
+            <Link
+              to={"manager"}
+              className="mr-2 flex items-center justify-center gap-2 rounded-full p-1 hover:bg-white/5 hover:shadow"
+            >
+              <img src={IconKey} alt="Admin" className="size-5" />
+              <span className="whitespace-nowrap text-sm text-white">Quản Trị Viên</span>
+            </Link>
+          )}
+          <Link to={"join"} className="mr-1 flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1">
+            <img src={IconUser} alt="User" className="size-4" />
+            <span className="whitespace-nowrap text-sm">{currentUser?.username || "Đăng Nhập"}</span>
           </Link>
         </div>
+
+        <button
+          type="button"
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
+          className="ml-auto flex size-10 items-center justify-center rounded-md border border-white/30 text-white sm:hidden"
+          aria-label="Toggle menu"
+        >
+          <span className="text-lg">{isMobileMenuOpen ? "X" : "="}</span>
+        </button>
       </div>
+
+      {isMobileMenuOpen && (
+        <div className="mx-auto mt-3 w-full max-w-screen-2xl rounded-md bg-[#191B24] p-4 text-white shadow sm:hidden">
+          <div className="mb-4 flex h-10 items-center rounded-md bg-white/30 px-3">
+            <img className="size-5 rounded-full scale-110" src={Search} alt="Search" />
+            <input
+              type="text"
+              placeholder="Tìm kiếm phim"
+              className="w-full bg-transparent pl-3 pr-2 placeholder:font-sans placeholder:text-white outline-none"
+            />
+          </div>
+          <ul className="grid gap-3 text-sm">
+            <li className="cursor-pointer hover:text-orange-200">Phim Lẻ</li>
+            <li className="cursor-pointer hover:text-orange-200">Phim Bộ</li>
+            <li className="cursor-pointer hover:text-orange-200">Thể Loại</li>
+            <li className="cursor-pointer hover:text-orange-200">Quốc Gia</li>
+            <li className="cursor-pointer hover:text-orange-200">TV Show</li>
+            <li className="cursor-pointer hover:text-orange-200">Phim Chiếu Rạp</li>
+          </ul>
+          <div className="mt-4 flex flex-col gap-3">
+            {currentUser?.isadmin && (
+              <Link to={"manager"} className="flex items-center gap-2 rounded-md border border-white/20 px-3 py-2">
+                <img src={IconKey} alt="Admin" className="size-5" />
+                <span className="text-sm">Quản Trị Viên</span>
+              </Link>
+            )}
+            <Link to={"join"} className="flex items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-black">
+              <img src={IconUser} alt="User" className="size-4" />
+              <span className="text-sm">{currentUser?.username || "Đăng Nhập"}</span>
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
 };
+
 export default Navbar;

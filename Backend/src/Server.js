@@ -8,13 +8,16 @@ dotenv.config();
 
 const server = express();
 
-await connetion.connect();
-console.log("DB connected");
-
 server.use(cors());
 server.use(express.json());
 server.use(router);
-
-server.listen(process.env.PORT || 5137, () => {
-  console.log(`Server running port ${process.env.PORT}`);
-});
+try {
+  await connetion.connect();
+  console.log("DB connected");
+  server.listen(process.env.PORT || 5137, () => {
+    console.log(`Server running port ${process.env.PORT}`);
+  });
+} catch (err) {
+  console.error("DB connect failed:", err.message);
+  process.exit(1);
+}

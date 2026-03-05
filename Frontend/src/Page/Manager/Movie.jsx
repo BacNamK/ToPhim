@@ -15,7 +15,14 @@ const MNMovie = () => {
     episodes: [{ episode_number: 1, title: "", video_url: "" }],
   });
 
-  const genresList = ["Action", "Drama", "Comedy", "Horror"];
+  const genresList = [
+    "Action",
+    "Adventure",
+    "Mecha",
+    "Drama",
+    "Comedy",
+    "Horror",
+  ];
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -53,7 +60,7 @@ const MNMovie = () => {
       await handlePost(form);
       toast.success("Thêm phim thành công!");
     } catch (error) {
-      toast.error(error);
+      toast.error(error?.message || "Có lỗi sảy ra!");
     }
   };
 
@@ -168,6 +175,18 @@ const MNMovie = () => {
             >
               + Thêm tập
             </button>
+          </div>
+        )}
+
+        {["single", "tvshow", "movie"].includes(form.type) && (
+          <div className="space-y-2">
+            <h3 className="text-lg font-semibold">Video URL</h3>
+            <input
+              placeholder="Video URL"
+              className="w-full p-2 rounded bg-gray-800"
+              value={form.episodes[0]?.video_url || ""}
+              onChange={(e) => handleEpisodeChange(0, "video_url", e.target.value)}
+            />
           </div>
         )}
 
