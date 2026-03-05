@@ -1,7 +1,7 @@
-import Search from "../../image/search.png";
-import ToCom from "../../image/IconToCom.png";
-import IconUser from "../../image/user.png";
-import IconKey from "../../image/key.png";
+import Search from "../../Image/search.png";
+import ToCom from "../../Image/IconToCom.png";
+import IconUser from "../../Image/user.png";
+import IconKey from "../../Image/key.png";
 import { useEffect, useRef } from "react";
 import { Link } from "react-router";
 

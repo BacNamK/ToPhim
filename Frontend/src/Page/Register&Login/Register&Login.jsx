@@ -1,7 +1,7 @@
 import { useState } from "react";
 import FormRegister from "./FormRegister";
 import FormLogin from "./FormLogin";
-import BgRL from "../../image/BgRG.jpg";
+import BgRL from "../../Image/BgRG.jpg";
 
 const ReLog = () => {
   const [isLogin, setLogin] = useState(false);

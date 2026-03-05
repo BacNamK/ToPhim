@@ -3,9 +3,9 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const { Client } = pkg;
+const { Pool } = pkg;
 
-const connetion = new Client({
+const pool = new Pool({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
   database: process.env.DB_NAME,
@@ -13,4 +13,4 @@ const connetion = new Client({
   port: process.env.DB_PORT,
 });
 
-export default connetion;
+export default pool;

@@ -1,6 +1,8 @@
-import BgImage from "../../image/ImageTest1.jpg";
+import { useEffect } from "react";
+import BgImage from "../../Image/ImageTest1.jpg";
 
 const Home = () => {
+  useEffect(() => {});
   return (
     <>
       <div className="relative w-full h-screen">
