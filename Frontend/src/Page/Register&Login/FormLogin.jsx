@@ -32,6 +32,7 @@ const FormLogin = () => {
       }
 
       localStorage.setItem("user", JSON.stringify(data?.user || null));
+      window.dispatchEvent(new Event("auth-changed"));
       toast.success("Dang nhap thanh cong!");
     } catch (error) {
       toast.error(error?.message || "Dang nhap that bai.");

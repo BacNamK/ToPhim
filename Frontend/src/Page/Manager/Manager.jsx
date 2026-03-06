@@ -6,7 +6,7 @@ const Manager = () => {
   const [element, setElement] = useState(true);
 
   return (
-    <div className="relative w-full h-auto bg-[#191B24]">
+    <div className="relative w-full h-full justify-items-center bg-[#191B24]">
       <div className="w-full h-20"></div>
       <div className="w-full h-15 items-center gap-5 mt-5 text-white">
         <div className="flex items-center gap-10 text-2xl h-10 font-mono  p-4 border-b border-white/20">

@@ -9,6 +9,7 @@ import reportWebVitals from "./reportWebVitals";
 import Home from "./Page/Home/Home";
 import ReLog from "./Page/Register&Login/Register&Login";
 import Manager from "./Page/Manager/Manager";
+import Classtify from "./Page/Classify/TheLoai/Classtify";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,8 +18,9 @@ root.render(
       <Routes>
         <Route element={<ItemOutlet />}>
           <Route path="/" element={<Home />}></Route>
-          <Route path="join" element={<ReLog />}></Route>
-          <Route path="manager" element={<Manager />}></Route>
+          <Route path="tham-gia" element={<ReLog />}></Route>
+          <Route path="quan-tri-vien" element={<Manager />}></Route>
+          <Route path="the-loai/:genre" element={<Classtify />}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router";
+import { Link } from "react-router-dom";
 import Search from "../../Image/search.png";
 import ToCom from "../../Image/IconToCom.png";
 import IconUser from "../../Image/user.png";
 import IconKey from "../../Image/key.png";
 
 const Navbar = () => {
+  const genres = ["Action", "Adventure", "Mecha", "Drama", "Comedy", "Horror"];
   const navRef = useRef(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -24,7 +25,8 @@ const Navbar = () => {
 
     const handleScroll = () => {
       if (!navRef.current) return;
-      navRef.current.style.background = window.scrollY > 0 ? "#191B24" : "transparent";
+      navRef.current.style.background =
+        window.scrollY > 0 ? "#191B24" : "transparent";
     };
 
     const handleAuthChanged = () => {
@@ -56,7 +58,11 @@ const Navbar = () => {
         </Link>
 
         <div className="hidden h-10 flex-1 items-center rounded-md bg-white/30 px-3 sm:flex lg:max-w-xs">
-          <img className="size-5 rounded-full scale-110" src={Search} alt="Search" />
+          <img
+            className="size-5 rounded-full scale-110"
+            src={Search}
+            alt="Search"
+          />
           <input
             type="text"
             placeholder="Tìm kiếm phim"
@@ -78,32 +84,47 @@ const Navbar = () => {
                   group-hover:opacity-100"
               >
                 <ul className="flex flex-col gap-2 p-3 text-sm text-white">
-                  <li className="cursor-pointer hover:text-orange-300">Bom Tấn</li>
-                  <li className="cursor-pointer hover:text-orange-300">Thần Thoại</li>
-                  <li className="cursor-pointer hover:text-orange-300">Âm Nhạc</li>
-                  <li className="cursor-pointer hover:text-orange-300">Thể Thao</li>
+                  {genres.map((genre) => (
+                    <li key={genre}>
+                      <Link
+                        to={`/the-loai/${encodeURIComponent(genre)}`}
+                        className="block hover:text-orange-300"
+                      >
+                        {genre}
+                      </Link>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </li>
             <li className="cursor-pointer hover:text-orange-200">Quốc Gia</li>
             <li className="cursor-pointer hover:text-orange-200">TV Show</li>
-            <li className="cursor-pointer hover:text-orange-200">Phim Chiếu Rạp</li>
+            <li className="cursor-pointer hover:text-orange-200">
+              Phim Chiếu Rạp
+            </li>
           </ul>
         </div>
 
         <div className="ml-auto hidden items-center justify-end gap-2 sm:flex">
           {currentUser?.isadmin && (
             <Link
-              to={"manager"}
+              to={"quan-tri-vien"}
               className="mr-2 flex items-center justify-center gap-2 rounded-full p-1 hover:bg-white/5 hover:shadow"
             >
               <img src={IconKey} alt="Admin" className="size-5" />
-              <span className="whitespace-nowrap text-sm text-white">Quản Trị Viên</span>
+              <span className="whitespace-nowrap text-sm text-white">
+                Quản Trị Viên
+              </span>
             </Link>
           )}
-          <Link to={"join"} className="mr-1 flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1">
+          <Link
+            to={"tham-gia"}
+            className="mr-1 flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1"
+          >
             <img src={IconUser} alt="User" className="size-4" />
-            <span className="whitespace-nowrap text-sm">{currentUser?.username || "Đăng Nhập"}</span>
+            <span className="whitespace-nowrap text-sm">
+              {currentUser?.username || "Đăng Nhập"}
+            </span>
           </Link>
         </div>
 
@@ -120,7 +141,11 @@ const Navbar = () => {
       {isMobileMenuOpen && (
         <div className="mx-auto mt-3 w-full max-w-screen-2xl rounded-md bg-[#191B24] p-4 text-white shadow sm:hidden">
           <div className="mb-4 flex h-10 items-center rounded-md bg-white/30 px-3">
-            <img className="size-5 rounded-full scale-110" src={Search} alt="Search" />
+            <img
+              className="size-5 rounded-full scale-110"
+              src={Search}
+              alt="Search"
+            />
             <input
               type="text"
               placeholder="Tìm kiếm phim"
@@ -130,21 +155,41 @@ const Navbar = () => {
           <ul className="grid gap-3 text-sm">
             <li className="cursor-pointer hover:text-orange-200">Phim Lẻ</li>
             <li className="cursor-pointer hover:text-orange-200">Phim Bộ</li>
-            <li className="cursor-pointer hover:text-orange-200">Thể Loại</li>
+            {genres.map((genre) => (
+              <li key={genre}>
+                <Link
+                  to={`/the-loai/${encodeURIComponent(genre)}`}
+                  className="cursor-pointer hover:text-orange-200"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {genre}
+                </Link>
+              </li>
+            ))}
             <li className="cursor-pointer hover:text-orange-200">Quốc Gia</li>
             <li className="cursor-pointer hover:text-orange-200">TV Show</li>
-            <li className="cursor-pointer hover:text-orange-200">Phim Chiếu Rạp</li>
+            <li className="cursor-pointer hover:text-orange-200">
+              Phim Chiếu Rạp
+            </li>
           </ul>
           <div className="mt-4 flex flex-col gap-3">
             {currentUser?.isadmin && (
-              <Link to={"manager"} className="flex items-center gap-2 rounded-md border border-white/20 px-3 py-2">
+              <Link
+                to={"quan-tri-vien"}
+                className="flex items-center gap-2 rounded-md border border-white/20 px-3 py-2"
+              >
                 <img src={IconKey} alt="Admin" className="size-5" />
                 <span className="text-sm">Quản Trị Viên</span>
               </Link>
             )}
-            <Link to={"join"} className="flex items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-black">
+            <Link
+              to={"join"}
+              className="flex items-center justify-center gap-2 rounded-md bg-white px-3 py-2 text-black"
+            >
               <img src={IconUser} alt="User" className="size-4" />
-              <span className="text-sm">{currentUser?.username || "Đăng Nhập"}</span>
+              <span className="text-sm">
+                {currentUser?.username || "Đăng Nhập"}
+              </span>
             </Link>
           </div>
         </div>
