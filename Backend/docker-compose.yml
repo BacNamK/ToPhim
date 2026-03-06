@@ -11,6 +11,7 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./init:/docker-entrypoint-initdb.d
 
   my-server:
     image: node:24
@@ -31,4 +32,3 @@ services:
 
 volumes:
   postgres_data:
-  node_modules:

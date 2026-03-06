@@ -1,4 +1,4 @@
 const MNUser = () => {
-  return <div className="w-full h-auto bg-black"></div>;
+  return <div className="w-full h-auto bg-[#191B24]"></div>;
 };
 export default MNUser;

@@ -19,12 +19,12 @@ const FormRegister = () => {
     e.preventDefault();
 
     if (!form.username || !form.email || !form.password) {
-      toast.error("Vui long nhap day du thong tin.");
+      toast.error("Vui lòng điền đầy đủ thông tin !");
       return;
     }
 
     if (form.password !== form.confirmPassword) {
-      toast.error("Mat khau nhap lai khong khop.");
+      toast.error("Mật khẩu nhập lại không hợp lệ !");
       return;
     }
 
@@ -43,7 +43,7 @@ const FormRegister = () => {
         return;
       }
 
-      toast.success("Dang ky thanh cong!");
+      toast.success("Đăng kí thành công !");
       setForm({
         username: "",
         email: "",
@@ -51,7 +51,7 @@ const FormRegister = () => {
         confirmPassword: "",
       });
     } catch (error) {
-      toast.error(error?.message || "Dang ky that bai.");
+      toast.error(error?.message || "Đăng kí thất bại !");
     } finally {
       setLoading(false);
     }

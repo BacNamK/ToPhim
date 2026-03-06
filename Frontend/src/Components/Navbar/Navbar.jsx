@@ -72,8 +72,18 @@ const Navbar = () => {
 
         <div className="hidden flex-1 items-center lg:flex">
           <ul className="ml-8 flex w-full gap-8 text-sm text-white">
-            <li className="cursor-pointer hover:text-orange-200">Phim Lẻ</li>
-            <li className="cursor-pointer hover:text-orange-200">Phim Bộ</li>
+            <Link
+              to={"phim-le"}
+              className="cursor-pointer hover:text-orange-200"
+            >
+              Phim Lẻ
+            </Link>
+            <Link
+              to={"phim-bo"}
+              className="cursor-pointer hover:text-orange-200"
+            >
+              Phim Bộ
+            </Link>
             <li className="group relative cursor-pointer hover:text-orange-200">
               <div>
                 Thể Loại <span className="text-[10px]">&#9660;</span>
@@ -98,10 +108,18 @@ const Navbar = () => {
               </div>
             </li>
             <li className="cursor-pointer hover:text-orange-200">Quốc Gia</li>
-            <li className="cursor-pointer hover:text-orange-200">TV Show</li>
-            <li className="cursor-pointer hover:text-orange-200">
+            <Link
+              to={"tvshow"}
+              className="cursor-pointer hover:text-orange-200"
+            >
+              TV Show
+            </Link>
+            <Link
+              to={"phim-chieu-rap"}
+              className="cursor-pointer hover:text-orange-200"
+            >
               Phim Chiếu Rạp
-            </li>
+            </Link>
           </ul>
         </div>
 
@@ -153,8 +171,18 @@ const Navbar = () => {
             />
           </div>
           <ul className="grid gap-3 text-sm">
-            <li className="cursor-pointer hover:text-orange-200">Phim Lẻ</li>
-            <li className="cursor-pointer hover:text-orange-200">Phim Bộ</li>
+            <Link
+              to={"phim-le"}
+              className="cursor-pointer hover:text-orange-200"
+            >
+              Phim Lẻ
+            </Link>
+            <Link
+              to={"phim-bo"}
+              className="cursor-pointer hover:text-orange-200"
+            >
+              Phim Bộ
+            </Link>
             {genres.map((genre) => (
               <li key={genre}>
                 <Link
@@ -168,9 +196,12 @@ const Navbar = () => {
             ))}
             <li className="cursor-pointer hover:text-orange-200">Quốc Gia</li>
             <li className="cursor-pointer hover:text-orange-200">TV Show</li>
-            <li className="cursor-pointer hover:text-orange-200">
+            <Link
+              to={"phim-chieu-rap"}
+              className="cursor-pointer hover:text-orange-200"
+            >
               Phim Chiếu Rạp
-            </li>
+            </Link>
           </ul>
           <div className="mt-4 flex flex-col gap-3">
             {currentUser?.isadmin && (

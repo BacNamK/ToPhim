@@ -8,6 +8,10 @@ export const handleGetMoviesByGenre = (genre) => {
   return axios.get(`movie/genre/${encodeURIComponent(genre || "")}`);
 };
 
+export const handleDeleteMovie = (movieId) => {
+  return axios.delete(`movie/${movieId}`);
+};
+
 // Gửi phim xuống db
 export const handlePost = (form) => {
   const payload = new FormData();

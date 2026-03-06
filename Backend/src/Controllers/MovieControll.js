@@ -1,6 +1,22 @@
 import pool from "../Config/DataBase.js";
 import { generateSlug } from "../Utils/slug.js";
 
+const parseJsonField = (value, fallback) => {
+  if (value === undefined || value === null || value === "") return fallback;
+  if (Array.isArray(value) || typeof value === "object") return value;
+
+  try {
+    return JSON.parse(value);
+  } catch (_err) {
+    return fallback;
+  }
+};
+
+const buildFileUrl = (req, file) => {
+  if (!file?.filename) return "";
+  return `${req.protocol}://${req.get("host")}/uploads/${file.filename}`;
+};
+
 const buildMovieQuery = ({ genre, country, type }) => {
   const where = [];
   const params = [];
@@ -44,7 +60,7 @@ const buildMovieQuery = ({ genre, country, type }) => {
       m.type,
       COALESCE((
         SELECT json_agg(
-          json_build_object("id", g.id, "name", g.name)
+          json_build_object('id', g.id, 'name', g.name)
           ORDER BY g.name
         )
         FROM movie_genres mg
@@ -54,9 +70,9 @@ const buildMovieQuery = ({ genre, country, type }) => {
       COALESCE((
         SELECT json_agg(
           json_build_object(
-            "episode_number", e.episode_number,
-            "title", e.title,
-            "video_url", e.video_url
+            'episode_number', e.episode_number,
+            'title', e.title,
+            'video_url', e.video_url
           )
           ORDER BY e.episode_number
         )
@@ -89,8 +105,21 @@ export const GetAllMovies = async (_req, res) => {
 
 export const GetMoviesByGenre = async (req, res) => {
   try {
-    const movies = await getMovies({ genre: req.params.genre });
-    res.status(200).json(movies);
+    const genreParam = (req.params.genre || "").trim();
+    const genreSlug = generateSlug(genreParam);
+
+    if (!genreParam) {
+      return res.status(200).json([]);
+    }
+
+    const movies = await getMovies();
+    const filteredMovies = movies.filter((movie) =>
+      Array.isArray(movie.genres)
+        ? movie.genres.some((g) => generateSlug(g?.name || "") === genreSlug)
+        : false,
+    );
+
+    res.status(200).json(filteredMovies);
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message || "Server error" });
@@ -151,48 +180,90 @@ export const PostMovie = async (req, res) => {
   let client;
   try {
     client = await pool.connect();
-    const {
-      name,
-      description,
-      country,
-      poster,
-      backdoor,
-      release_date,
-      type,
-      genres,
-      episodes,
-    } = req.body;
+    const files = req.files || {};
+    const posterFile = files.poster?.[0];
+    const backdoorFile = files.backdoor?.[0];
+    const parsedGenres = parseJsonField(req.body.genres, []);
+    const parsedEpisodes = parseJsonField(req.body.episodes, []);
 
-    const slug = generateSlug(name);
+    const { name, description, country, release_date, type } = req.body;
+
+    const poster = buildFileUrl(req, posterFile) || req.body.poster || "";
+    const backdoor = buildFileUrl(req, backdoorFile) || req.body.backdoor || "";
+    const safeName = (name || "").trim();
+    const safeCountry = (country || "").trim();
+    const safeReleaseDate =
+      typeof release_date === "string" && release_date.trim() !== ""
+        ? release_date
+        : null;
+    const safeType = (type || "single").trim() || "single";
+    const baseSlug = generateSlug(safeName);
+
+    if (!safeName) {
+      throw new Error("Movie name is required");
+    }
+    if (!baseSlug) {
+      throw new Error("Movie slug is invalid");
+    }
 
     await client.query("BEGIN");
+
+    let slug = baseSlug;
+    let slugIndex = 1;
+    while (true) {
+      const slugCheck = await client.query(
+        `SELECT 1 FROM movies WHERE slug = $1 LIMIT 1`,
+        [slug],
+      );
+      if (!slugCheck.rowCount) break;
+      slug = `${baseSlug}-${slugIndex}`;
+      slugIndex += 1;
+    }
 
     const movieResult = await client.query(
       `INSERT INTO movies 
       (name, description, slug, country, poster,backdoor, release_date, type)
       VALUES ($1,$2,$3,$4,$5,$6,$7,$8)
       RETURNING id`,
-      [name, description, slug, country, poster, backdoor, release_date, type],
+      [
+        safeName,
+        description || "",
+        slug,
+        safeCountry,
+        poster,
+        backdoor,
+        safeReleaseDate,
+        safeType,
+      ],
     );
 
     const movieId = movieResult.rows[0].id;
 
-    if (genres?.length) {
-      for (const genre of genres) {
+    if (parsedGenres?.length) {
+      for (const genre of parsedGenres) {
         let genreId = genre;
 
         // Support both numeric genre ids and genre names from the UI.
         if (typeof genre === "string" && Number.isNaN(Number(genre))) {
+          const safeGenreName = genre.trim();
+          if (!safeGenreName) continue;
+
           const genreResult = await client.query(
             `SELECT id FROM genres WHERE LOWER(name) = LOWER($1) LIMIT 1`,
-            [genre],
+            [safeGenreName],
           );
 
-          if (!genreResult.rowCount) {
-            throw new Error(`Genre not found: ${genre}`);
+          if (genreResult.rowCount) {
+            genreId = genreResult.rows[0].id;
+          } else {
+            const newGenreResult = await client.query(
+              `INSERT INTO genres (name) VALUES ($1) RETURNING id`,
+              [safeGenreName],
+            );
+            genreId = newGenreResult.rows[0].id;
           }
-
-          genreId = genreResult.rows[0].id;
+        } else if (!Number.isNaN(Number(genre))) {
+          genreId = Number(genre);
         }
 
         await client.query(
@@ -203,13 +274,18 @@ export const PostMovie = async (req, res) => {
       }
     }
 
-    if (episodes?.length) {
-      for (let ep of episodes) {
+    if (parsedEpisodes?.length) {
+      for (let ep of parsedEpisodes) {
         await client.query(
           `INSERT INTO episodes 
           (movie_id, episode_number, title, video_url)
           VALUES ($1,$2,$3,$4)`,
-          [movieId, ep.episode_number, ep.title, ep.video_url],
+          [
+            movieId,
+            Number(ep.episode_number) || 1,
+            ep.title || "",
+            ep.video_url || "",
+          ],
         );
       }
     }
@@ -226,6 +302,41 @@ export const PostMovie = async (req, res) => {
     }
     console.error(err);
     res.status(500).json({ error: err.message || "Server error" });
+  } finally {
+    if (client) {
+      client.release();
+    }
+  }
+};
+
+export const DeleteMovie = async (req, res) => {
+  const movieId = Number(req.params.id);
+
+  if (!Number.isInteger(movieId) || movieId <= 0) {
+    return res.status(400).json({ error: "Movie id is invalid" });
+  }
+
+  let client;
+  try {
+    client = await pool.connect();
+    await client.query("BEGIN");
+    await client.query(`DELETE FROM episodes WHERE movie_id = $1`, [movieId]);
+    await client.query(`DELETE FROM movie_genres WHERE movie_id = $1`, [movieId]);
+    const result = await client.query(`DELETE FROM movies WHERE id = $1`, [movieId]);
+
+    if (!result.rowCount) {
+      await client.query("ROLLBACK");
+      return res.status(404).json({ error: "Movie not found" });
+    }
+
+    await client.query("COMMIT");
+    return res.status(200).json({ message: "Movie deleted successfully" });
+  } catch (err) {
+    if (client) {
+      await client.query("ROLLBACK");
+    }
+    console.error(err);
+    return res.status(500).json({ error: err.message || "Server error" });
   } finally {
     if (client) {
       client.release();

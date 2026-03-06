@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BgProvider from "./Components/BackgroundGlobal/Background";
 import ItemOutlet from "./Components/BackgroundGlobal/ItemOutlet";
 
@@ -10,6 +10,10 @@ import Home from "./Page/Home/Home";
 import ReLog from "./Page/Register&Login/Register&Login";
 import Manager from "./Page/Manager/Manager";
 import Classtify from "./Page/Classify/TheLoai/Classtify";
+import SingleMovie from "./Page/Classify/PhimLe/SingleMovies";
+import Series from "./Page/Classify/PhimBo/Series";
+import TvShow from "./Page/Classify/TvShow/TvShow";
+import TheateMovie from "./Page/Classify/PhimChieuRap/TheateMovie";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -17,10 +21,14 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route element={<ItemOutlet />}>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="tham-gia" element={<ReLog />}></Route>
-          <Route path="quan-tri-vien" element={<Manager />}></Route>
-          <Route path="the-loai/:genre" element={<Classtify />}></Route>
+          <Route path="/" element={<Home />} />
+          <Route path="tham-gia" element={<ReLog />} />
+          <Route path="quan-tri-vien" element={<Manager />} />
+          <Route path="phim-le" element={<SingleMovie />} />
+          <Route path="phim-bo" element={<Series />} />
+          <Route path="the-loai/:genre" element={<Classtify />} />
+          <Route path="tvshow" element={<TvShow />} />
+          <Route path="phim-chieu-rap" element={<TheateMovie />} />
         </Route>
       </Routes>
     </BrowserRouter>

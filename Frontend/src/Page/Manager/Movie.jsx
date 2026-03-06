@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { handleGetMovies, handlePost } from "../../API/Movie";
+import { handleDeleteMovie, handleGetMovies, handlePost } from "../../API/Movie";
 import { toast } from "sonner";
 
 const MNMovie = () => {
   const [isCreate, setisCreate] = useState(false);
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [deletingMovieId, setDeletingMovieId] = useState(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -132,8 +133,32 @@ const MNMovie = () => {
     }
   };
 
+  const onDeleteMovie = async (movie) => {
+    const movieId = movie?.id;
+    if (!movieId) {
+      toast.error("Không tìm thấy id phim để xóa!");
+      return;
+    }
+
+    const isConfirm = window.confirm(
+      `Bạn có chắc muốn xóa phim "${movie?.name || "N/A"}"?`,
+    );
+    if (!isConfirm) return;
+
+    try {
+      setDeletingMovieId(movieId);
+      await handleDeleteMovie(movieId);
+      setMovies((prev) => prev.filter((item) => item?.id !== movieId));
+      toast.success("Xóa phim thành công!");
+    } catch (error) {
+      toast.error(error?.response?.data?.error || "Xóa phim thất bại!");
+    } finally {
+      setDeletingMovieId(null);
+    }
+  };
+
   return (
-    <div className="w-full max-w-6xl h-auto p-6 bg-[#191B24] text-white rounded-xl space-y-6">
+    <div className="w-full p-6 text-white space-y-6">
       <button
         onClick={() => setisCreate(!isCreate)}
         className="text-2xl font-bold mb-6"
@@ -313,11 +338,11 @@ const MNMovie = () => {
         )}
 
         {!isLoading && movies.length > 0 && (
-          <div className="space-y-3">
+          <div className="space-y-3 overflow-hidden">
             {movies.map((movie, movieIndex) => (
               <div
                 key={movie.id ?? movie.slug ?? `${movie.name}-${movieIndex}`}
-                className="rounded-xl bg-gray-900 border border-gray-700 p-4"
+                className="rounded-xl bg-gray-900 border border-gray-700 p-4 overflow-hidden"
               >
                 <div className="grid grid-cols-1 md:grid-cols-[100px_1fr] gap-4">
                   <img
@@ -330,14 +355,24 @@ const MNMovie = () => {
                   />
 
                   <div className="space-y-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <h3 className="text-lg font-semibold">{movie.name}</h3>
+                    <div className="flex flex-wrap items-center gap-2 min-w-0">
+                      <h3 className="text-lg font-semibold break-words">
+                        {movie.name}
+                      </h3>
                       <span className="text-xs px-2 py-1 rounded bg-blue-600 capitalize">
                         {movie.type}
                       </span>
+                      <button
+                        type="button"
+                        onClick={() => onDeleteMovie(movie)}
+                        disabled={deletingMovieId === movie.id}
+                        className="ml-auto text-xs px-3 py-1 rounded bg-red-600 hover:bg-red-500 disabled:opacity-60 disabled:cursor-not-allowed"
+                      >
+                        {deletingMovieId === movie.id ? "Đang xóa..." : "Xóa"}
+                      </button>
                     </div>
 
-                    <p className="text-sm text-gray-300 line-clamp-2">
+                    <p className="text-sm text-gray-300 line-clamp-2 break-words">
                       {movie.description || "Chưa có mô tả"}
                     </p>
 

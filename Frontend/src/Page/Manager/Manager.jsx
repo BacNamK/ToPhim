@@ -6,10 +6,10 @@ const Manager = () => {
   const [element, setElement] = useState(true);
 
   return (
-    <div className="relative w-full h-full justify-items-center bg-[#191B24]">
+    <div className="relative w-full min-h-screen bg-[#191B24] px-4 pb-10">
       <div className="w-full h-20"></div>
-      <div className="w-full h-15 items-center gap-5 mt-5 text-white">
-        <div className="flex items-center gap-10 text-2xl h-10 font-mono  p-4 border-b border-white/20">
+      <div className="mx-auto mt-5 w-full max-w-6xl text-white">
+        <div className="flex h-10 items-center gap-10 border-b border-white/20 p-4 text-2xl font-mono">
           <button
             onClick={() => setElement(!element)}
             className={` p-1 ${element ? "border-b-2 border-yellow-400" : ""}`}
@@ -24,7 +24,9 @@ const Manager = () => {
           </button>
         </div>
       </div>
-      {element ? <MNUser /> : <MNMovie />}
+      <div className="mx-auto w-full max-w-6xl">
+        {element ? <MNUser /> : <MNMovie />}
+      </div>
     </div>
   );
 };
