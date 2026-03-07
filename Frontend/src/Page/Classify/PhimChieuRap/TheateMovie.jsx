@@ -1,4 +1,4 @@
 const TheateMovie = () => {
-  return <div></div>;
+  return <div>ffdkm</div>;
 };
 export default TheateMovie;
