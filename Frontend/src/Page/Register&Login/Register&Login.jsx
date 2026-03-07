@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import FormRegister from "./FormRegister";
 import FormLogin from "./FormLogin";
-import BgRL from "../../Image/BgRG.jpg";
+import BgRL from "../../image/BgRG.jpg";
 
 const ReLog = () => {
   const [isLogin, setLogin] = useState(false);

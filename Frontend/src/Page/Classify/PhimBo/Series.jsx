@@ -1,5 +1,5 @@
 const Series = () => {
-  return <div></div>;
+  return <div>"ban ruou doc"</div>;
 };
 
-export default Series;
+export default Series;  
