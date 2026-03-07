@@ -1,4 +1,4 @@
 const SingleMovie = () => {
-  return <div></div>;
+  return <div>dajsdnalda</div>;
 };
 export default SingleMovie;
