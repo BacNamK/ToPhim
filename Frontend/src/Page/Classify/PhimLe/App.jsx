@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
-import SingleMovies from "./pages/PhimLe/SingleMovies";
-import MovieDetail from "./pages/PhimLe/MovieDetail";
+import Home from "./Page/Home";
+import SingleMovies from "./Page/PhimLe/SingleMovies";
+import MovieDetail from "./Page/PhimLe/MovieDetail";
 
 function App() {
   return (
@@ -10,7 +10,7 @@ function App() {
         <Route path="/movie/:id" element={<MovieDetail />} />
         <Route path="/" element={<Home />} />
 
-        <Route path="/movies" element={<SingleMovies />} />
+        <Route path="/movie" element={<SingleMovies />} />
 
         <Route path="/movie/:id" element={<MovieDetail />} />
 

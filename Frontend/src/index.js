@@ -30,6 +30,7 @@ root.render(
           <Route path="the-loai/:genre" element={<Classtify />} />
           <Route path="tvshow" element={<TvShow />} />
           <Route path="phim-chieu-rap" element={<TheateMovie />} />
+          <Route path="/movie-detail" element={<MovieDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

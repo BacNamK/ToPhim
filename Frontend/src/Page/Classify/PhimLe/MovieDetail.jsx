@@ -1,85 +1,76 @@
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { handleGetMovies } from "../../../API/Movie";
-import "./singleMovies.css";
+import { useLocation } from "react-router-dom";
 
 const MovieDetail = () => {
-  const { id } = useParams();
-  const [movie, setMovie] = useState(null);
+  const location = useLocation();
+  const movie = location.state;
 
-  useEffect(() => {
-    const getMovie = async () => {
-      try {
-        const res = await handleGetMovies();
-        const data = res?.data || [];
 
-        const foundMovie = data.find(
-          (m) => String(m.id) === String(id)
-        );
-
-        setMovie(foundMovie || null);
-      } catch (error) {
-        console.error("Lỗi lấy phim:", error);
-      }
-    };
-
-    getMovie();
-  }, [id]);
-
-  if (!movie) {
-    return (
-      <div className="loading" style={{ color: "white", padding: "40px" }}>
-        Loading...
-      </div>
-    );
-  }
 
   return (
-    <div
-      className="movie-detail"
-      style={{
-        backgroundImage: `url(${movie.backdoor || ""})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
-    >
-      <div className="overlay"></div>
+    <div className="min-h-screen bg-[#191B24] text-white">
 
-      <div className="movie-detail-container">
-        <div className="movie-poster">
-          <img
-            src={movie.poster}
-            alt={movie.name}
-          />
-        </div>
+      {/* Banner */}
+      <div
+        className="h-[450px] bg-cover bg-center relative"
+        style={{ backgroundImage: `url(${movie.backdoor})` }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-t from-[#191B24] to-transparent"></div>
+      </div>
 
-        <div className="movie-info-detail">
-          <h1>{movie.name}</h1>
+      {/* Nội dung */}
+      <div className="max-w-6xl mx-auto px-6 -mt-40 flex gap-10 relative z-10">
 
-          <p className="meta">
-            {movie.release_date?.slice(0, 4)} • {movie.country}
+        {/* Poster */}
+        <img
+          src={movie.poster}
+          alt={movie.name}
+          className="w-[200px] rounded-lg shadow-lg"
+        />
+
+        {/* Thông tin phim */}
+        <div className="flex-1">
+
+          <h1 className="text-4xl font-bold">
+            {movie.name}
+          </h1>
+
+          <p className="text-gray-400 mt-3 max-w-2xl">
+            {movie.description}
           </p>
 
-          <div className="genres">
-            {movie.genres?.map((g, i) => (
-              <span key={i}>{g.name || g}</span>
-            ))}
+          {/* Button */}
+          <div className="flex gap-4 mt-6">
+
+            <button className="bg-yellow-400 text-black px-6 py-2 rounded-full font-semibold">
+              ▶ Xem ngay
+            </button>
+
+            <button className="border border-gray-500 px-4 py-2 rounded-full">
+              + Yêu thích
+            </button>
+
           </div>
 
-          <p className="description">{movie.description}</p>
+          {/* Thông tin thêm */}
+          <div className="mt-6 text-gray-300 space-y-2">
 
-          {movie.episodes?.[0]?.video_url && (
-            <a
-              href={movie.episodes[0].video_url}
-              className="watch-btn"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              ▶ Xem phim
-            </a>
-          )}
+            <p>
+              <span className="text-gray-400">Thể loại:</span> {movie.genre}
+            </p>
+
+            <p>
+              <span className="text-gray-400">Năm:</span> {movie.year}
+            </p>
+
+            <p>
+              <span className="text-gray-400">Quốc gia:</span> {movie.country}
+            </p>
+
+          </div>
+
         </div>
       </div>
+
     </div>
   );
 };
