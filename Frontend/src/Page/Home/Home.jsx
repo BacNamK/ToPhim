@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { handleGetMoviesByGenre } from "../../API/Movie";
-import BgImage from "../../Image/ImageTest1.jpg";
+import BgImage from "../../image/ImageTest1.jpg";
 
 const Home = () => {
   const [movies, setMovies] = useState([]);

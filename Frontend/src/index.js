@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BgProvider from "./Components/BackgroundGlobal/Background";
 import ItemOutlet from "./Components/BackgroundGlobal/ItemOutlet";
+import Watch from "./Page/Watch/Watch";
 
 import "./index.css";
 
@@ -14,6 +15,8 @@ import SingleMovie from "./Page/Classify/PhimLe/SingleMovies";
 import Series from "./Page/Classify/PhimBo/Series";
 import TvShow from "./Page/Classify/TvShow/TvShow";
 import TheateMovie from "./Page/Classify/PhimChieuRap/TheateMovie";
+
+import Detail from "./Page/Detail/Detail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -29,6 +32,9 @@ root.render(
           <Route path="the-loai/:genre" element={<Classtify />} />
           <Route path="tvshow" element={<TvShow />} />
           <Route path="phim-chieu-rap" element={<TheateMovie />} />
+
+          <Route path="phim/:id" element={<Detail />} />
+          <Route path="watch/:id" element={<Watch />} />
         </Route>
       </Routes>
     </BrowserRouter>
