@@ -1,0 +1,82 @@
+.movie-card{
+position:relative;
+width:170px;
+cursor:pointer;
+}
+
+.poster{
+width:100%;
+border-radius:10px;
+}
+
+/* CARD HOVER */
+
+.hover-preview{
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+width:380px;
+background:#1f2937;
+border-radius:15px;
+padding:20px;
+box-shadow:0 20px 50px rgba(0,0,0,0.7);
+z-index:20;
+animation:zoom .2s ease;
+}
+
+@keyframes zoom{
+from{transform:translate(-50%,-50%) scale(.9)}
+to{transform:translate(-50%,-50%) scale(1)}
+}
+
+.hover-preview h3{
+color:white;
+margin:0;
+}
+
+.sub{
+color:#aaa;
+font-size:14px;
+margin-bottom:10px;
+}
+
+.btn-row{
+display:flex;
+gap:10px;
+margin:15px 0;
+}
+
+.watch{
+background:#facc15;
+border:none;
+padding:8px 16px;
+border-radius:8px;
+font-weight:bold;
+}
+
+.like,.detail{
+background:#374151;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:8px;
+}
+
+.meta{
+display:flex;
+gap:10px;
+margin-bottom:10px;
+}
+
+.imdb{
+background:#facc15;
+color:black;
+padding:2px 6px;
+border-radius:4px;
+}
+
+.genre{
+color:#9ca3af;
+font-size:13px;
+}

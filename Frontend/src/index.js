@@ -2,7 +2,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BgProvider from "./Components/BackgroundGlobal/Background";
 import ItemOutlet from "./Components/BackgroundGlobal/ItemOutlet";
-
+import MovieDetail from "./Page/Classify/PhimBo/MovieDetail";
 import "./index.css";
 
 import reportWebVitals from "./reportWebVitals";
@@ -14,6 +14,8 @@ import SingleMovie from "./Page/Classify/PhimLe/SingleMovies";
 import Series from "./Page/Classify/PhimBo/Series";
 import TvShow from "./Page/Classify/TvShow/TvShow";
 import TheateMovie from "./Page/Classify/PhimChieuRap/TheateMovie";
+import WatchMovie from "./Page/Classify/PhimBo/WatchMovie";
+
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -21,7 +23,9 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route element={<ItemOutlet />}>
+        <Route path="phim/:id" element={<MovieDetail />} />
           <Route path="/" element={<Home />} />
+           <Route path="watch/:id" element={<WatchMovie />} /> 
           <Route path="tham-gia" element={<ReLog />} />
           <Route path="quan-tri-vien" element={<Manager />} />
           <Route path="phim-le" element={<SingleMovie />} />

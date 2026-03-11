@@ -1,15 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { handleGetMoviesByGenre } from "../../API/Movie";
-<<<<<<< HEAD
-import BgImage from "../../image/ImageTest1.jpg";
-=======
-<<<<<<< HEAD
-import BgImage from "../../image/ImageTest1.jpg";
-=======
-import BgImage from "../../image/imageTest1.jpg";
->>>>>>> fe255f5e537240f42b71735e38e0843e5d2341bd
->>>>>>> 533aad29639223f972a17c55fdcc0a3af2dab9a1
 
+import BgImage from "../../image/ImageTest1.jpg";
 const Home = () => {
   const [movies, setMovies] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
