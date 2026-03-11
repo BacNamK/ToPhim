@@ -2,71 +2,79 @@
 position:relative;
 width:170px;
 cursor:pointer;
+overflow:visible;
+}
+
+.movie-card:hover{
+transform:scale(1.1);
+transition:0.2s;
+z-index:50;
 }
 
 .poster{
 width:100%;
-border-radius:10px;
+border-radius:25px;
 }
 
 /* CARD HOVER */
 
 .hover-preview{
 position:absolute;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-width:380px;
+top:-10px;
+left:-15px;
+width:200px;
 background:#1f2937;
-border-radius:15px;
-padding:20px;
-box-shadow:0 20px 50px rgba(0,0,0,0.7);
-z-index:20;
+border-radius:12px;
+padding:12px;
+box-shadow:0 15px 40px rgba(0,0,0,0.6);
+z-index:100;
 animation:zoom .2s ease;
 }
 
 @keyframes zoom{
-from{transform:translate(-50%,-50%) scale(.9)}
-to{transform:translate(-50%,-50%) scale(1)}
+from{transform:scale(.9)}
+to{transform:scale(1)}
 }
 
 .hover-preview h3{
-color:white;
+font-size:16px;
 margin:0;
+color:white;
 }
 
 .sub{
+font-size:12px;
 color:#aaa;
-font-size:14px;
-margin-bottom:10px;
 }
 
 .btn-row{
 display:flex;
-gap:10px;
-margin:15px 0;
+gap:6px;
+margin:10px 0;
+}
+
+.btn-row button{
+padding:6px 10px;
+font-size:12px;
+border-radius:6px;
+border:none;
 }
 
 .watch{
 background:#facc15;
-border:none;
-padding:8px 16px;
-border-radius:8px;
 font-weight:bold;
 }
 
 .like,.detail{
 background:#374151;
 color:white;
-border:none;
-padding:8px 12px;
-border-radius:8px;
 }
 
 .meta{
 display:flex;
-gap:10px;
-margin-bottom:10px;
+gap:6px;
+font-size:12px;
+margin-bottom:6px;
 }
 
 .imdb{
@@ -78,5 +86,5 @@ border-radius:4px;
 
 .genre{
 color:#9ca3af;
-font-size:13px;
+font-size:12px;
 }

@@ -2,14 +2,9 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BgProvider from "./Components/BackgroundGlobal/Background";
 import ItemOutlet from "./Components/BackgroundGlobal/ItemOutlet";
-<<<<<<< HEAD
 import MovieDetail from "./Page/Classify/PhimBo/MovieDetail";
-=======
 import Watch from "./Page/Watch/Watch";
-
->>>>>>> 9f47086b71fe03a3eff44c13720edb22ee5a73c7
 import "./index.css";
-
 import reportWebVitals from "./reportWebVitals";
 import Home from "./Page/Home/Home";
 import ReLog from "./Page/Register&Login/Register&Login";
@@ -20,7 +15,7 @@ import Series from "./Page/Classify/PhimBo/Series";
 import TvShow from "./Page/Classify/TvShow/TvShow";
 import TheateMovie from "./Page/Classify/PhimChieuRap/TheateMovie";
 import WatchMovie from "./Page/Classify/PhimBo/WatchMovie";
-
+import MovieCard from "./Page/Classify/PhimBo/MovieCard";
 
 import Detail from "./Page/Detail/Detail";
 
