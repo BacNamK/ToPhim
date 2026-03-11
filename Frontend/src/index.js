@@ -14,8 +14,11 @@ import SingleMovie from "./Page/Classify/PhimLe/SingleMovies";
 import Series from "./Page/Classify/PhimBo/Series";
 import TvShow from "./Page/Classify/TvShow/TvShow";
 import TheateMovie from "./Page/Classify/PhimChieuRap/TheateMovie";
+
 import Detail from "./Page/Detail/Detail";
 import Play from "./Page/Detail/Play";
+
+import MovieDetail from "./Page/Classify/PhimLe/MovieDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -27,13 +30,14 @@ root.render(
           <Route path="tham-gia" element={<ReLog />} />
           <Route path="quan-tri-vien" element={<Manager />} />
           <Route path="phim-le" element={<SingleMovie />} />
+          <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="phim-bo" element={<Series />} />
           <Route path="the-loai/:genre" element={<Classtify />} />
           <Route path="tvshow" element={<TvShow />} />
           <Route path="phim-chieu-rap" element={<TheateMovie />} />
           <Route path="chi-tiet/:id" element={<Detail />} />
           <Route path="xem-phim/:id" element={<Play />} />
-          <Route path="" />
+          <Route path="singleMovies/movie/:id" element={<MovieDetail />} />
         </Route>
       </Routes>
     </BrowserRouter>

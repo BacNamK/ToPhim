@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { handleGetMovies } from "../../API/Movie";
 
 const Detail = () => {
@@ -8,6 +8,10 @@ const Detail = () => {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  const location = useLocation;
+
+  const movies = location.state?.movie;
+  console.log(movies);
   useEffect(() => {
     let isMounted = true;
 
@@ -68,7 +72,9 @@ const Detail = () => {
 
         <div className="space-y-4">
           <h1 className="text-3xl font-bold md:text-4xl">{movie.name}</h1>
-          <p className="text-gray-200">{movie.description || "Chua co mo ta"}</p>
+          <p className="text-gray-200">
+            {movie.description || "Chua co mo ta"}
+          </p>
           <p>
             <span className="font-semibold">Quoc gia:</span>{" "}
             {movie.country || "Dang cap nhat"}
@@ -82,11 +88,15 @@ const Detail = () => {
           <p>
             <span className="font-semibold">The loai:</span>{" "}
             {Array.isArray(movie.genres) && movie.genres.length
-              ? movie.genres.map((item) => item?.name).filter(Boolean).join(", ")
+              ? movie.genres
+                  .map((item) => item?.name)
+                  .filter(Boolean)
+                  .join(", ")
               : "Dang cap nhat"}
           </p>
           <p>
-            <span className="font-semibold">Loai phim:</span> {movie.type || "N/A"}
+            <span className="font-semibold">Loai phim:</span>{" "}
+            {movie.type || "N/A"}
           </p>
 
           <button

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { handleGetMoviesByGenre } from "../../API/Movie";
+
 import BgImage from "../../Image/ImageTest1.jpg";
 import playicon from "../../Image/play.png";
 
@@ -63,10 +64,7 @@ const Home = () => {
             />
           ))
         ) : (
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${BgImage})` }}
-          />
+          <div className="absolute inset-0 bg-cover bg-center" />
         )}
 
         <div className="absolute inset-0 bg-gradient-to-r from-[#191B24]/25 via-[#191B24]/20 to-transparent" />
