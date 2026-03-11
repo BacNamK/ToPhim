@@ -13,7 +13,7 @@
   import id10 from"../../../image/imagePL/id10.webp";
   import id11 from"../../../image/imagePL/id11.webp";
   import id12 from"../../../image/imagePL/id12.webp";
-
+  
 const movies = [
   {
     id: 1,

@@ -14,7 +14,7 @@ import SingleMovie from "./Page/Classify/PhimLe/SingleMovies";
 import Series from "./Page/Classify/PhimBo/Series";
 import TvShow from "./Page/Classify/TvShow/TvShow";
 import TheateMovie from "./Page/Classify/PhimChieuRap/TheateMovie";
-
+import MovieDetail from "./Page/Classify/PhimLe/MovieDetail";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BgProvider>
@@ -25,6 +25,7 @@ root.render(
           <Route path="tham-gia" element={<ReLog />} />
           <Route path="quan-tri-vien" element={<Manager />} />
           <Route path="phim-le" element={<SingleMovie />} />
+          <Route path="/movie/:id" element={<MovieDetail />} />
           <Route path="phim-bo" element={<Series />} />
           <Route path="the-loai/:genre" element={<Classtify />} />
           <Route path="tvshow" element={<TvShow />} />
