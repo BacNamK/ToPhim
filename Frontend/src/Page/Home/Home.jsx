@@ -1,8 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { handleGetMoviesByGenre } from "../../API/Movie";
 import BgImage from "../../Image/ImageTest1.jpg";
+import playicon from "../../Image/play.png";
 
 const Home = () => {
+  const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -66,7 +69,7 @@ const Home = () => {
           />
         )}
 
-        <div className="absolute inset-0 bg-gradient-to-r from-[#191B24]/95 via-[#191B24]/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#191B24]/25 via-[#191B24]/20 to-transparent" />
         <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_250px_#191B24]" />
         <div className="absolute bottom-0 left-0 h-[15%] w-full bg-gradient-to-t from-[#191B24] to-transparent" />
 
@@ -82,6 +85,19 @@ const Home = () => {
             )}
           </div>
         )}
+
+        {/* 1-1 Chuyền data xuống detail */}
+        <button
+          type="button"
+          onClick={() => {
+            if (!currentMovie?.id) return;
+            navigate(`/chi-tiet/${currentMovie.id}`);
+          }}
+          className="absolute size-20 flex justify-center items-center rounded-full bg-yellow-300 bottom-10 left-10 text-white disabled:opacity-50"
+          disabled={!currentMovie?.id}
+        >
+          <img src={playicon} alt="Xem chi tiet phim" />
+        </button>
 
         {movies.length > 1 && (
           <div className="absolute bottom-8 right-4 z-20 flex max-w-[60vw] gap-3 overflow-x-auto pb-2 md:right-8">
