@@ -1,5 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
 import { handleGetMoviesByGenre } from "../../API/Movie";
+<<<<<<< HEAD
+=======
+
+import BgImage from "../../image/ImageTest1.jpg";
+
+>>>>>>> 9f47086b71fe03a3eff44c13720edb22ee5a73c7
 
 import BgImage from "../../image/ImageTest1.jpg";
 const Home = () => {
