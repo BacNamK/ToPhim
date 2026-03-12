@@ -205,16 +205,17 @@ return(
 
 {/* ACTION BAR */}
 <div className="action-bar">
+<button onClick={()=>alert("Chức năng đang được phát triển")}>
+＋ Thêm vào
+</button>
 
-<span className="vip">VIP 1</span>
-<span className="vip">VIP 2</span>
+<button onClick={()=>alert("Chức năng đang được phát triển")}>
+📤 Chia sẻ
+</button>
 
-<button>❤ Yêu thích</button>
-<button>＋ Thêm vào</button>
-<button>🎬 Rạp phim</button>
-<button>📤 Chia sẻ</button>
-<button>⚠ Báo lỗi</button>
-
+<button onClick={()=>alert("Chức năng đang được phát triển")}>
+⚠ Báo lỗi
+</button>
 </div>
 
 {/* MOVIE INFO */}

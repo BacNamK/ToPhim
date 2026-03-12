@@ -1,14 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { handleGetMoviesByGenre } from "../../API/Movie";
-<<<<<<< HEAD
 
-import BgImage from "../../image/imageTest1.jpg";
+
+
 import playicon from "../../image/play.png";
 
-=======
-import BgImage from "../../image/ImageTest1.jpg";
->>>>>>> 3c8033d94f9073c5a1e0d5c74b5e8a6a163856db
+
+import Image from "../../image/ImageTest1.jpg";
+
 const Home = () => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
