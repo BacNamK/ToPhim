@@ -11,13 +11,13 @@ const Manager = () => {
       <div className="mx-auto mt-5 w-full max-w-6xl text-white">
         <div className="flex h-10 items-center gap-10 border-b border-white/20 p-4 text-2xl font-mono">
           <button
-            onClick={() => setElement(!element)}
+            onClick={() => setElement(true)}
             className={` p-1 ${element ? "border-b-2 border-yellow-400" : ""}`}
           >
             User
           </button>
           <button
-            onClick={() => setElement(!element)}
+            onClick={() => setElement(false)}
             className={` ${element ? "" : "border-b-2 border-yellow-400"}`}
           >
             Movie

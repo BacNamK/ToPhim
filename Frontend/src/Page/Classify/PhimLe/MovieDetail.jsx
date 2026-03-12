@@ -1,74 +1,356 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import "./singleMovies.css";
 
 const MovieDetail = () => {
+
   const location = useLocation();
-  const movie = location.state;
+  const navigate = useNavigate();
 
+  const [movie, setMovie] = useState(null);
 
+  const [liked,setLiked] = useState(false);
+  const [saved,setSaved] = useState(false);
+
+  const [activeTab,setActiveTab] = useState("episode");
+
+  const [comment,setComment] = useState("");
+  const [comments,setComments] = useState([]);
+
+  const [version,setVersion] = useState("vietsub");
+
+  /* ⭐ RATING STATE */
+  const [rating,setRating] = useState(0);
+
+  useEffect(() => {
+    if (location.state?.movie) {
+      setMovie(location.state.movie);
+    }
+  }, [location]);
+
+  if (!movie) return null;
+
+  const banner = movie.banner || movie.img;
+
+  /* ===== WATCH MOVIE ===== */
+
+  const handleWatch = () => {
+    navigate("/watch", { state: { movie,version } });
+  };
+
+  /* ===== ICON FUNCTIONS ===== */
+
+  const handleLike = () => {
+    setLiked(!liked);
+  };
+
+  const handleSave = () => {
+
+    const savedMovies =
+      JSON.parse(localStorage.getItem("savedMovies")) || [];
+
+    const exist = savedMovies.find(m => m.title === movie.title);
+
+    if(exist){
+      alert("Phim đã có trong danh sách!");
+      return;
+    }
+
+    savedMovies.push(movie);
+
+    localStorage.setItem("savedMovies",JSON.stringify(savedMovies));
+
+    setSaved(true);
+
+    alert("Đã thêm vào danh sách!");
+  };
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert("Đã copy link phim!");
+  };
+
+  /* ===== COMMENT ===== */
+
+  const addComment = () => {
+
+    if(comment.trim() === "") return;
+
+    const newComment = {
+      text: comment,
+      time: new Date().toLocaleTimeString()
+    };
+
+    setComments([...comments,newComment]);
+
+    setComment("");
+
+  };
+
+  const deleteComment = (index) => {
+    setComments(comments.filter((_,i)=>i!==index));
+  };
 
   return (
-    <div className="min-h-screen bg-[#191B24] text-white">
+    <div className="detail-page">
 
       {/* Banner */}
       <div
-        className="h-[450px] bg-cover bg-center relative"
-        style={{ backgroundImage: `url(${movie.backdoor})` }}
+        className="banner"
+        style={{ backgroundImage: `url(${banner})` }}
       >
-        <div className="absolute inset-0 bg-gradient-to-t from-[#191B24] to-transparent"></div>
+        <div className="overlay"></div>
       </div>
 
-      {/* Nội dung */}
-      <div className="max-w-6xl mx-auto px-6 -mt-40 flex gap-10 relative z-10">
+      <div className="info-box">
 
-        {/* Poster */}
-        <img
-          src={movie.poster}
-          alt={movie.name}
-          className="w-[200px] rounded-lg shadow-lg"
-        />
+        {/* LEFT */}
+        <div className="left-col">
 
-        {/* Thông tin phim */}
-        <div className="flex-1">
+          <div className="poster">
+            <img src={movie.img} alt={movie.title} />
+            <p className="poster-title">{movie.title}</p>
+            <p className="poster-sub">{movie.sub}</p>
+             <p className="poster-country">
+              🌍 {movie.country || "Đang cập nhật"}
+            </p>
 
-          <h1 className="text-4xl font-bold">
-            {movie.name}
-          </h1>
+            {/* GIỚI THIỆU */}
+            <p className="poster-desc">
+              {movie.desc || "Chưa có mô tả cho bộ phim này."}
+            </p>
+          </div>
 
-          <p className="text-gray-400 mt-3 max-w-2xl">
-            {movie.description}
-          </p>
+        </div>
 
-          {/* Button */}
-          <div className="flex gap-4 mt-6">
+        {/* RIGHT */}
+        <div className="right-col">
 
-            <button className="bg-yellow-400 text-black px-6 py-2 rounded-full font-semibold">
-              ▶ Xem ngay
+          {/* ACTIONS */}
+          <div className="actions">
+
+            <button
+              className="watch-btn"
+              onClick={handleWatch}
+            >
+              ▶ Xem Ngay
             </button>
 
-            <button className="border border-gray-500 px-4 py-2 rounded-full">
-              + Yêu thích
-            </button>
+            <div className="icons">
+
+              {/* LIKE */}
+              <span
+                className="icon-btn"
+                onClick={handleLike}
+              >
+                {liked ? "❤️" : "🤍"}
+              </span>
+
+              {/* SAVE */}
+              <span
+                className="icon-btn"
+                onClick={handleSave}
+              >
+                {saved ? "✔" : "➕"}
+              </span>
+
+              {/* SHARE */}
+              <span
+                className="icon-btn"
+                onClick={handleShare}
+              >
+                ↗
+              </span>
+
+              {/* COMMENT TAB */}
+              <span
+                className="icon-btn"
+                onClick={()=>setActiveTab("comment")}
+              >
+                💬
+              </span>
+
+            </div>
+
+            {/* ⭐ RATING */}
+            <div className="rating">
+
+              {[1,2,3,4,5].map((star)=>(
+                <span
+                  key={star}
+                  className="star"
+                  onClick={()=>setRating(star)}
+                >
+                  {rating >= star ? "⭐" : "☆"}
+                </span>
+              ))}
+
+              <span className="rating-number">
+                {rating}.0
+              </span>
+
+            </div>
 
           </div>
 
-          {/* Thông tin thêm */}
-          <div className="mt-6 text-gray-300 space-y-2">
+          {/* TABS */}
+          <div className="tabs">
 
-            <p>
-              <span className="text-gray-400">Thể loại:</span> {movie.genre}
-            </p>
+            <span
+              className={activeTab==="episode" ? "active" : ""}
+              onClick={()=>setActiveTab("episode")}
+            >
+              Tập phim
+            </span>
 
-            <p>
-              <span className="text-gray-400">Năm:</span> {movie.year}
-            </p>
+            <span
+              className={activeTab==="trailer" ? "active" : ""}
+              onClick={()=>setActiveTab("trailer")}
+            >
+              Trailer
+            </span>
 
-            <p>
-              <span className="text-gray-400">Quốc gia:</span> {movie.country}
-            </p>
+            <span
+              className={activeTab==="actor" ? "active" : ""}
+              onClick={()=>setActiveTab("actor")}
+            >
+              Diễn viên
+            </span>
+
+            <span
+              className={activeTab==="suggest" ? "active" : ""}
+              onClick={()=>setActiveTab("suggest")}
+            >
+              Đề xuất
+            </span>
+
+          </div>
+
+          {/* ===== EPISODE TAB ===== */}
+
+          {activeTab === "episode" && (
+            <>
+              <h3 className="section-title">Các bản chiếu</h3>
+
+              <div className="episode-select">
+
+                <span
+                  className={version==="vietsub" ? "tag active" : "tag"}
+                  onClick={()=>setVersion("vietsub")}
+                >
+                  Vietsub
+                </span>
+
+                <span
+                  className={version==="full" ? "tag active" : "tag"}
+                  onClick={()=>setVersion("full")}
+                >
+                  Full
+                </span>
+
+              </div>
+
+              <button
+                className="watch-ep"
+                onClick={handleWatch}
+              >
+                Xem bản này
+              </button>
+
+            </>
+          )}
+
+          {/* TRAILER */}
+
+          {activeTab === "trailer" && (
+            <div className="trailer">
+              <iframe
+                width="100%"
+                height="350"
+                src={movie.trailer}
+                title="Trailer"
+                allowFullScreen
+              ></iframe>
+            </div>
+          )}
+
+          {/* ACTOR */}
+
+          {activeTab === "actor" && (
+            <div>
+              <p>Diễn viên: Chưa cập nhật</p>
+            </div>
+          )}
+
+          {/* SUGGEST */}
+
+          {activeTab === "suggest" && (
+            <div>
+              <p>Nội dung đang phát triển</p>
+            </div>
+          )}
+
+          {/* ===== COMMENT ===== */}
+
+          <div className="comment-box">
+
+            <h3>Bình luận</h3>
+
+            <div className="comment-input">
+
+              <input
+                type="text"
+                placeholder="Nhập bình luận..."
+                value={comment}
+                onChange={(e)=>setComment(e.target.value)}
+                onKeyDown={(e)=>e.key==="Enter" && addComment()}
+              />
+
+              <button onClick={addComment}>
+                Gửi
+              </button>
+
+            </div>
+
+            <div className="comment-list">
+
+              {comments.map((c,index)=>(
+
+                <div key={index} className="comment">
+
+                  <div className="comment-avatar">
+                    👤
+                  </div>
+
+                  <div className="comment-content">
+
+                    <div className="comment-text">
+                      {c.text}
+                    </div>
+
+                    <div className="comment-time">
+                      {c.time}
+                    </div>
+
+                  </div>
+
+                  <button
+                    className="delete-comment"
+                    onClick={()=>deleteComment(index)}
+                  >
+                    ✖
+                  </button>
+
+                </div>
+
+              ))}
+
+            </div>
 
           </div>
 
         </div>
+
       </div>
 
     </div>
