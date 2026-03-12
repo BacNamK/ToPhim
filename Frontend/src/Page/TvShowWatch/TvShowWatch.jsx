@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 
-const Watch = () => {
+const TvShowWatch = () => {
 
   const { id } = useParams();
   const navigate = useNavigate();
@@ -14,8 +14,8 @@ const Watch = () => {
     "3": { name: "Sao Nhập Ngũ", episodes: [{ epId: 1, epName: "1", link: "https://short.icu/QxLhDxO-R" }] },
     "4": { name: "2 Ngày 1 Đêm", episodes: [{ epId: 1, epName: "1", link: "https://short.icu/_Fpajm4nR" }] },
     "5": { name: "The Masked Singer", episodes: [{ epId: 1, epName: "1", link: "https://short.icu/lojL-Ox5X" }] },
-    "6": { name: "Vua Tiếng Việt", episodes: [{ epId: 1, epName: "1", link: "" }] },
-    "7": { name: "Nhanh Như Chớp", episodes: [{ epId: 1, epName: "1", link: "" }] },
+    "6": { name: "Vua Tiếng Việt", episodes: [{ epId: 1, epName: "1", link: "https://short.icu/aboLcqIO3" }] },
+    "7": { name: "Nhanh Như Chớp", episodes: [{ epId: 1, epName: "1", link: "https://short.icu/hLOSTI9xN" }] },
     "8": { name: "Anh Trai Vượt Ngàn Chông Gai", episodes: [] },
     "9": { name: "Chị Đẹp Đạp Gió Rẽ Sóng", episodes: [] },
     "10": { name: "Hành Trình Rực Rỡ Mùa 2", episodes: [] },
@@ -120,4 +120,4 @@ const Watch = () => {
   );
 };
 
-export default Watch;
+export default TvShowWatch;

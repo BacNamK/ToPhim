@@ -39,7 +39,17 @@ const TvShow = () => {
     return true;
   });
 
+  // MA THUẬT SẮP XẾP Ở ĐÂY
   filteredShows.sort((a, b) => {
+    // 1. Phân loại xem phim nào đang "Sắp chiếu" hoặc "Trailer"
+    const isA_Upcoming = a.episode === "Sắp chiếu" || a.episode === "Trailer";
+    const isB_Upcoming = b.episode === "Sắp chiếu" || b.episode === "Trailer";
+
+    // 2. Đẩy phim chưa chiếu xuống dưới cùng
+    if (isA_Upcoming && !isB_Upcoming) return 1;  // A chưa chiếu, B có chiếu -> Đẩy A xuống dưới
+    if (!isA_Upcoming && isB_Upcoming) return -1; // A có chiếu, B chưa chiếu -> Đẩy A lên trên
+
+    // 3. Nếu 2 phim cùng trạng thái (cùng đã chiếu hoặc cùng chưa chiếu), thì mới xét đến bộ lọc của người dùng
     if (sortBy === "newest") return new Date(b.dateAdded) - new Date(a.dateAdded);
     if (sortBy === "views") return b.views - a.views;
     return 0;
@@ -89,8 +99,8 @@ const TvShow = () => {
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-8">
           {filteredShows.map((show) => (
-            <Link to={`/phim/${show.id}`} key={show.id} className="group relative block">
-              <div className="relative aspect-[2/3] rounded-[2rem] overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.6)] transition-all duration-500 group-hover:scale-[1.05] group-hover:shadow-orange-500/20 border border-white/5 group-hover:border-orange-500">
+            <Link to={`/tvshow/${show.id}`} key={show.id} className="group relative block">
+              <div className="relative aspect-[2/3] rounded-[2rem] overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.6)] transition-all duration-500 group-hover:scale-[1.25] group-hover:shadow-orange-500/20 border border-white/5 group-hover:border-orange-500">
                 
                 <div className="absolute top-4 left-4 bg-black/80 backdrop-blur-md border border-green-500 text-white text-[10px] font-black px-2.5 py-1 rounded-lg z-20">
                   {show.rating}
@@ -99,7 +109,7 @@ const TvShow = () => {
                 <img src={show.image} alt={show.name} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                 
                 
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white text-black text-[9px] font-black px-4 py-2 rounded-full shadow-2xl uppercase tracking-tighter z-20">
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white text-black text-[9px] font-black px-4 py-2 rounded-full shadow-2xl uppercase tracking-tighter z-20 whitespace-nowrap">
                   {show.episode}
                 </div>
 

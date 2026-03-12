@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BgProvider from "./Components/BackgroundGlobal/Background";
 import ItemOutlet from "./Components/BackgroundGlobal/ItemOutlet";
 import MovieDetail from "./Page/Classify/PhimBo/MovieDetail";
-import Watch from "./Page/Watch/Watch";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./Page/Home/Home";
@@ -17,7 +16,8 @@ import TheateMovie from "./Page/Classify/PhimChieuRap/TheateMovie";
 import WatchMovie from "./Page/Classify/PhimBo/WatchMovie";
 import MovieCard from "./Page/Classify/PhimBo/MovieCard";
 
-import Detail from "./Page/Detail/Detail";
+import TvShowWatch from "./Page/TvShowWatch/TvShowWatch";
+import TvShowDetail from "./Page/TvShowDetail/TvShowDetail";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -36,8 +36,8 @@ root.render(
           <Route path="tvshow" element={<TvShow />} />
           <Route path="phim-chieu-rap" element={<TheateMovie />} />
 
-          <Route path="phim/:id" element={<Detail />} />
-          <Route path="watch/:id" element={<Watch />} />
+          <Route path="tvshow/:id" element={<TvShowDetail />} />
+          <Route path="watch-tvshow/:id" element={<TvShowWatch />} />
         </Route>
       </Routes>
     </BrowserRouter>
