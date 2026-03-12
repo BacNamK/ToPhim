@@ -1,5 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  singleMovies,
+  seriesMovies,
+  tvshowMovies,
+  theaterMovies,
+} from "../../Data/mockMovies";
 import Search from "../../image/search.png";
 import ToCom from "../../image/IconToCom.png";
 import IconUser from "../../image/user.png";
@@ -7,6 +13,15 @@ import IconKey from "../../image/key.png";
 
 const Navbar = () => {
   const genres = ["Hoạt Hình", "Hành Động", "Phiêu Lưu"];
+  const allMovies = [
+    ...singleMovies,
+    ...seriesMovies,
+    ...tvshowMovies,
+    ...theaterMovies,
+  ];
+  const countries = Array.from(
+    new Set(allMovies.map((m) => m.country).filter(Boolean)),
+  );
   const navRef = useRef(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -107,7 +122,29 @@ const Navbar = () => {
                 </ul>
               </div>
             </li>
-            <li className="cursor-pointer hover:text-orange-200">Quốc Gia</li>
+            <li className="group relative cursor-pointer hover:text-orange-200">
+              <div>
+                Quốc Gia <span className="text-[10px]">&#9660;</span>
+              </div>
+              <div
+                className="absolute left-0 top-full mt-2 min-w-[200px] rounded-md bg-[#191B24]
+                  shadow-lg opacity-0 invisible transition-all duration-200 group-hover:visible
+                  group-hover:opacity-100"
+              >
+                <ul className="flex flex-col gap-2 p-3 text-sm text-white">
+                  {countries.map((country) => (
+                    <li key={country}>
+                      <Link
+                        to={`/quoc-gia/${encodeURIComponent(country)}`}
+                        className="block hover:text-orange-300"
+                      >
+                        {country}
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </li>
             <Link
               to={"tvshow"}
               className="cursor-pointer hover:text-orange-200"
@@ -140,7 +177,7 @@ const Navbar = () => {
             className="mr-1 flex items-center justify-center gap-1 rounded-full bg-white px-3 py-1"
           >
             <img src={IconUser} alt="User" className="size-4" />
-            <span className="whitespace-nowrap text-sm">
+            <span className="whitespace-nowrap text-sm text-black">
               {currentUser?.username || "Đăng Nhập"}
             </span>
           </Link>
@@ -194,7 +231,17 @@ const Navbar = () => {
                 </Link>
               </li>
             ))}
-            <li className="cursor-pointer hover:text-orange-200">Quốc Gia</li>
+            {countries.map((country) => (
+              <li key={country}>
+                <Link
+                  to={`/quoc-gia/${encodeURIComponent(country)}`}
+                  className="cursor-pointer hover:text-orange-200"
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  {country}
+                </Link>
+              </li>
+            ))}
             <li className="cursor-pointer hover:text-orange-200">TV Show</li>
             <Link
               to={"phim-chieu-rap"}

@@ -10,7 +10,12 @@ function BgProvider({ children }) {
   return (
     <>
       <Navbar />
-      <Outlet />
+      {/* push content down so fixed navbar doesn't overlap */}
+      <div className="m-0 p-0">
+        {" "}
+        {/* adjust value to match navbar height */}
+        <Outlet />
+      </div>
     </>
   );
 }

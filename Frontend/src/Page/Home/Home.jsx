@@ -1,25 +1,33 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { handleGetMoviesByGenre } from "../../API/Movie";
-<<<<<<< HEAD
+import {
+  singleMovies,
+  seriesMovies,
+  tvshowMovies,
+  theaterMovies,
+} from "../../Data/mockMovies";
 
-import BgImage from "../../image/imageTest1.jpg";
+import BgImage from "../../image/ImageTest1.jpg";
 import playicon from "../../image/play.png";
 
-=======
-import BgImage from "../../image/ImageTest1.jpg";
->>>>>>> 3c8033d94f9073c5a1e0d5c74b5e8a6a163856db
 const Home = () => {
   const navigate = useNavigate();
   const [movies, setMovies] = useState([]);
   const [activeSlide, setActiveSlide] = useState(0);
+  const [moviesByType, setMoviesByType] = useState({
+    single: [],
+    series: [],
+    tvshow: [],
+    theater: [],
+  });
 
   useEffect(() => {
     let isMounted = true;
 
     const getAnimationMovies = async () => {
       try {
-        const response = await handleGetMoviesByGenre("Hoạt Hình");
+        const response = await handleGetMoviesByGenre("Hành Động");
         const data = Array.isArray(response?.data) ? response.data : [];
         const validMovies = data.filter((movie) => movie?.backdoor);
 
@@ -48,6 +56,16 @@ const Home = () => {
 
     return () => clearInterval(timer);
   }, [movies]);
+
+  // Fetch các loại phim khác nhau
+  useEffect(() => {
+    setMoviesByType({
+      single: singleMovies.slice(0, 12),
+      series: seriesMovies.slice(0, 12),
+      tvshow: tvshowMovies.slice(0, 10),
+      theater: theaterMovies.slice(0, 10),
+    });
+  }, []);
 
   const currentMovie = useMemo(() => {
     if (!movies.length) return null;
@@ -102,7 +120,7 @@ const Home = () => {
         </button>
 
         {movies.length > 1 && (
-          <div className="absolute bottom-8 right-4 z-20 flex max-w-[60vw] gap-3 overflow-x-auto pb-2 md:right-8">
+          <div className="absolute bottom-8 right-4 z-20 flex max-w-[60vw] gap-3 overflow-x-auto pb-2 scrollbar-hide md:right-8">
             {movies.map((movie, index) => (
               <button
                 key={`${movie.id ?? movie.slug ?? index}-thumb`}
@@ -125,8 +143,146 @@ const Home = () => {
         )}
       </div>
 
-      <div className="w-full h-screen bg-[#191B24] p-5">
-        <div className="w-full h-full bg-gray-50/5 rounded-md shadow"></div>
+      <div className="w-full bg-[#191B24] p-5 md:p-8">
+        {/* 1-2 Phim Lẻ */}
+        {moviesByType.single.length > 0 && (
+          <div className="mb-12">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-yellow-300 md:text-2xl">
+                Phim Lẻ Mới
+              </h2>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide md:gap-4">
+              {moviesByType.single.map((movie, index) => (
+                <a
+                  href="/phim-le"
+                  key={movie.id ?? `single-${index}`}
+                  className="shrink-0 cursor-pointer group"
+                >
+                  <div className="relative h-40 w-28 overflow-hidden rounded-lg md:h-48 md:w-32">
+                    <img
+                      src={movie.poster || movie.backdoor}
+                      alt={movie.name}
+                      className="h-full w-full object-cover transition-transform group-hover:scale-110"
+                    />
+                  </div>
+                  <h3 className="mt-2 line-clamp-1 text-xs font-semibold text-white md:text-sm">
+                    {movie.name}
+                  </h3>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 1-2 Phim Bộ */}
+        {moviesByType.series.length > 0 && (
+          <div className="mb-12">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-yellow-300 md:text-2xl">
+                Phim Bộ Mới
+              </h2>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide md:gap-4">
+              {moviesByType.series.map((movie, index) => (
+                <a
+                  href="/phim-bo"
+                  key={movie.id ?? `series-${index}`}
+                  className="shrink-0 cursor-pointer group"
+                >
+                  <div className="relative h-40 w-28 overflow-hidden rounded-lg md:h-48 md:w-32">
+                    <img
+                      src={movie.poster || movie.backdoor}
+                      alt={movie.name}
+                      className="h-full w-full object-cover transition-transform group-hover:scale-110"
+                    />
+                    {Array.isArray(movie.episodes) &&
+                      movie.episodes.length > 0 && (
+                        <div className="absolute bottom-1 left-1 rounded bg-red-600 px-1.5 py-0.5 text-xs font-semibold text-white">
+                          PD. {movie.episodes.length}
+                        </div>
+                      )}
+                  </div>
+                  <h3 className="mt-2 line-clamp-1 text-xs font-semibold text-white md:text-sm">
+                    {movie.name}
+                  </h3>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 1-2 TV Show */}
+        {moviesByType.tvshow.length > 0 && (
+          <div className="mb-12">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-yellow-300 md:text-2xl">
+                TV Show Mới
+              </h2>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide md:gap-4">
+              {moviesByType.tvshow.map((movie, index) => (
+                <a
+                  href="/tvshow"
+                  key={movie.id ?? `tvshow-${index}`}
+                  className="shrink-0 cursor-pointer group"
+                >
+                  <div className="relative h-40 w-28 overflow-hidden rounded-lg md:h-48 md:w-32">
+                    <img
+                      src={movie.poster || movie.backdoor}
+                      alt={movie.name}
+                      className="h-full w-full object-cover transition-transform group-hover:scale-110"
+                    />
+                    {Array.isArray(movie.episodes) &&
+                      movie.episodes.length > 0 && (
+                        <div className="absolute bottom-1 left-1 rounded bg-red-600 px-1.5 py-0.5 text-xs font-semibold text-white">
+                          PD. {movie.episodes.length}
+                        </div>
+                      )}
+                  </div>
+                  <h3 className="mt-2 line-clamp-1 text-xs font-semibold text-white md:text-sm">
+                    {movie.name}
+                  </h3>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 1-2 Phim Chiếu Rạp */}
+        {moviesByType.theater.length > 0 && (
+          <div className="mb-12">
+            <div className="mb-4 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-yellow-300 md:text-2xl">
+                Phim Chiếu Rạp Hot
+              </h2>
+            </div>
+            <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide md:gap-4">
+              {moviesByType.theater.map((movie, index) => (
+                <a
+                  href="/phim-chieu-rap"
+                  key={movie.id ?? `theater-${index}`}
+                  className="shrink-0 cursor-pointer group"
+                  onClick={() => navigate(`/chi-tiet/${movie.id}`)}
+                >
+                  <div className="relative h-40 w-28 overflow-hidden rounded-lg md:h-48 md:w-32">
+                    <img
+                      src={movie.poster || movie.backdoor}
+                      alt={movie.name}
+                      className="h-full w-full object-cover transition-transform group-hover:scale-110"
+                    />
+                    <div className="absolute bottom-1 left-1 rounded bg-orange-500 px-1.5 py-0.5 text-xs font-semibold text-white">
+                      {movie.rating}
+                    </div>
+                  </div>
+                  <h3 className="mt-2 line-clamp-1 text-xs font-semibold text-white md:text-sm">
+                    {movie.name}
+                  </h3>
+                </a>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </>
   );
