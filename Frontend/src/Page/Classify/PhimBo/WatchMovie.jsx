@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./watchMovie.css";
 
 /* VIDEO */
@@ -42,7 +42,6 @@ import p17 from "./img/17.jpg";
 function WatchMovie(){
 
 const { id } = useParams();
-const navigate = useNavigate();
 const movieId = Number(id);
 
 const movies = {
@@ -195,10 +194,6 @@ return(
 
 <div className="watch-container">
 
-<div className="back-nav" onClick={() => navigate(-1)}>
-<span>←</span> Quay lại
-</div>
-
 {/* VIDEO */}
 <div className="video-wrapper">
 
@@ -253,10 +248,7 @@ return(
 
 <div className="episode-grid">
 
-<button
-className="episode-btn active"
-onClick={()=>navigate(`/watch/${movieId}`)}
->
+<button className="episode-btn active">
 ▶ Tập 1
 </button>
 
@@ -269,5 +261,4 @@ onClick={()=>navigate(`/watch/${movieId}`)}
 )
 
 }
-
 export default WatchMovie;
