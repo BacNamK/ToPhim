@@ -36,13 +36,14 @@ background:#061b2e;
 z-index:9999;
 }
 
-.detail-page{
-height:420px;
-background-size:cover;
-background-position:center;
-position:relative;
-margin-top:150px;
-z-index:1;
+.detail-page {
+  height: 500px; /* Bạn có thể tăng chiều cao này lên một chút */
+  background-size: cover; /* Quan trọng: Giúp ảnh phủ kín và không bị méo */
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  margin-top: 80px; /* Khớp với chiều cao navbar (80px) */
+  z-index: 1;
 }
 
 .detail-overlay{
@@ -608,3 +609,30 @@ transform:translateY(-2px);
     color: #222;
 }
 .btn-close-rating:hover { background-color: #edf2f7; }
+.back-btn{
+position:absolute;
+top:90px;
+left:40px;
+
+padding:8px 16px;
+background:rgba(20,30,45,0.85);
+
+color:#fbc02d;
+font-size:16px;
+font-weight:600;
+
+border-radius:8px;
+cursor:pointer;
+z-index:10;
+
+display:inline-flex;
+align-items:center;
+gap:8px;
+
+transition:0.2s;
+}
+
+.back-btn:hover{
+background:rgba(30,40,60,0.95);
+transform:translateX(-3px);
+}

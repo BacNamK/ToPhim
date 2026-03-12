@@ -121,7 +121,20 @@ function MovieDetail() {
   if (!movie) return <h2 style={{ color: "white", textAlign: "center", marginTop: "100px" }}>Không tìm thấy phim</h2>;
 
   return (
-    <div className="detail-page" style={{ backgroundImage: `url(${movie.banner})` }}>
+   <div
+  className="detail-page"
+  style={{
+    backgroundImage: `url(${movie.banner})`,
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    backgroundRepeat: "no-repeat"
+  }}
+>
+
+  {/* NÚT QUAY LẠI */}
+  <div className="back-btn" onClick={() => navigate(-1)}>
+    ← TRỞ VỀ DANH SÁCH
+  </div>
       <div className="detail-overlay"></div>
       <div className="movie-layout">
         <div className="movie-left">

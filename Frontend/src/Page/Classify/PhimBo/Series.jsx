@@ -26,6 +26,9 @@ function Series() {
 
   const [currentPage,setCurrentPage] = useState(1);
   const [hover,setHover] = useState(null);
+  const [liked,setLiked] = useState({});
+  const [showFav,setShowFav] = useState(false); // ⭐ THÊM
+
   const moviesPerPage = 12;
 
   const movies = [
@@ -48,15 +51,55 @@ function Series() {
     { id:17, name:"Doraemon : Nobita ở vương quốc chó mèo", poster: img17},
   ];
 
+  // ⭐ LỌC PHIM
+  const filteredMovies = showFav
+    ? movies.filter(movie => liked[movie.id])
+    : movies;
+
   const indexLast = currentPage * moviesPerPage;
   const indexFirst = indexLast - moviesPerPage;
-  const currentMovies = movies.slice(indexFirst,indexLast);
+  const currentMovies = filteredMovies.slice(indexFirst,indexLast);
 
-  const totalPages = Math.ceil(movies.length / moviesPerPage);
+  const totalPages = Math.ceil(filteredMovies.length / moviesPerPage);
+
+  const toggleLike = (e,id)=>{
+    e.stopPropagation();
+    setLiked(prev => ({
+      ...prev,
+      [id]: !prev[id]
+    }));
+  };
 
   return (
 
-    <div className="series-container">
+      <div className="series-container">
+
+     {/*  TIÊU ĐỀ */}
+    <div className="section-title">
+    <span className="line"></span>
+    <h2> PHIM BỘ</h2>
+     </div>
+
+      {/* NÚT LỌC */}
+      <div className="filter-bar">
+
+        <button
+        className={!showFav ? "active" : ""}
+        onClick={()=>setShowFav(false)}
+        >
+        Tất cả
+        </button>
+
+        <button
+        className={showFav ? "active" : ""}
+        onClick={()=>setShowFav(true)}
+        >
+        ❤ Yêu thích
+        </button>
+        
+
+      </div>
+      
 
       <div className="movie-grid">
 
@@ -66,7 +109,7 @@ function Series() {
             className="movie-card"
             key={movie.id}
             onMouseEnter={() => setHover(movie.id)}
-             onMouseLeave={() => setHover(null)}
+            onMouseLeave={() => setHover(null)}
             onClick={() => navigate(`/phim/${movie.id}`)}
           >
 
@@ -76,48 +119,54 @@ function Series() {
             </div>
 
             <p className="movie-name">{movie.name}</p>
+
             {hover === movie.id && (
-  <div className="preview-box">
-     <img
-      src={movie.poster}
-      alt={movie.name}
-      className="preview-img"
-    />
 
-    <h3>{movie.name}</h3>
+              <div className="preview-box" onClick={(e)=>e.stopPropagation()}>
 
-    <div className="preview-buttons">
+                <img
+                  src={movie.poster}
+                  alt={movie.name}
+                  className="preview-img"
+                />
 
-      <button
-      className="watch"
-     onClick={() => navigate(`/phim/${movie.id}`)}
-       >
-       ▶ Xem ngay
-      </button>
+                <h3>{movie.name}</h3>
 
-      <button onClick={(e)=>e.stopPropagation()}>
-      ❤ Thích
-      </button>
+                <div className="preview-buttons">
 
-      <button
-      onClick={(e)=>{
-        e.stopPropagation();
-        navigate(`/phim/${movie.id}`)
-      }}
-      >
-      ⓘ Chi tiết
-      </button>
+                  <button
+                  className="watch"
+                    onClick={(e)=>{
+                  e.stopPropagation();
+                   navigate(`/watch/${movie.id}`);
+                    }}
+                  >
+                  ▶ Xem ngay
+                   </button>
 
-    </div>
+                  <button onClick={(e)=>toggleLike(e,movie.id)}>
+                    {liked[movie.id] ? "❤️" : "🤍"}
+                  </button>
+                  <button
+                    onClick={(e)=>{
+                  e.stopPropagation();
+               navigate(`/phim/${movie.id}`);
+                 }}
+                 >
+                   ⓘ Chi tiết
+                  </button>
+                </div>
 
-    <div className="preview-meta">
-      <span className="imdb">IMDb 7.4</span>
-      <span>2025</span>
-      <span>sắp chiếu</span>
-    </div>
+                <div className="preview-meta">
+                  <span className="imdb">IMDb 7.4</span>
+                  <span>2025</span>
+                  <span>Đang chiếu</span>
+                </div>
 
-  </div>
-)}
+              </div>
+
+            )}
+
           </div>
 
         ))}
@@ -129,27 +178,27 @@ function Series() {
       <div className="pagination">
 
         <button
-        onClick={()=>setCurrentPage(currentPage-1)}
-        disabled={currentPage===1}
+          onClick={()=>setCurrentPage(currentPage-1)}
+          disabled={currentPage===1}
         >
-        ◀
+          ◀
         </button>
 
         {Array.from({length:totalPages},(_,i)=>(
           <button
-          key={i}
-          className={currentPage===i+1 ? "active" : ""}
-          onClick={()=>setCurrentPage(i+1)}
+            key={i}
+            className={currentPage===i+1 ? "active" : ""}
+            onClick={()=>setCurrentPage(i+1)}
           >
-          {i+1}
+            {i+1}
           </button>
         ))}
 
         <button
-        onClick={()=>setCurrentPage(currentPage+1)}
-        disabled={currentPage===totalPages}
+          onClick={()=>setCurrentPage(currentPage+1)}
+          disabled={currentPage===totalPages}
         >
-        ▶
+          ▶
         </button>
 
       </div>

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { handleGetMoviesByGenre } from "../../API/Movie";
+
 import {
   singleMovies,
   seriesMovies,
@@ -10,6 +11,10 @@ import {
 
 import BgImage from "../../image/ImageTest1.jpg";
 import playicon from "../../image/play.png";
+
+import playicon from "../../image/play.png";
+
+import Image from "../../image/ImageTest1.jpg";
 
 const Home = () => {
   const navigate = useNavigate();
