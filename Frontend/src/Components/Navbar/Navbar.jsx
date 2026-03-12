@@ -6,7 +6,7 @@ import IconUser from "../../image/user.png";
 import IconKey from "../../image/key.png";
 
 const Navbar = () => {
-  const genres = ["Action", "Adventure", "Mecha", "Drama", "Comedy", "Horror"];
+  const genres = ["Hoạt Hình", "Hành Động", "Phiêu Lưu"];
   const navRef = useRef(null);
   const [currentUser, setCurrentUser] = useState(null);
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -45,7 +45,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav ref={navRef} className="fixed z-20 w-full px-3 py-2 transition-colors">
+    <nav ref={navRef} className="fixed z-50 w-full px-3 py-2 transition-colors">
       <div className="mx-auto flex max-w-screen-2xl items-center gap-3">
         <Link to={""} className="ml-1 flex items-center gap-2">
           <div className="size-10 rounded-full shadow sm:size-12">
