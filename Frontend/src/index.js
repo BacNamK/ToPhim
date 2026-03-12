@@ -2,9 +2,9 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import BgProvider from "./Components/BackgroundGlobal/Background";
 import ItemOutlet from "./Components/BackgroundGlobal/ItemOutlet";
-
+import MovieDetail from "./Page/Classify/PhimBo/MovieDetail";
+import Watch from "./Page/Watch/Watch";
 import "./index.css";
-
 import reportWebVitals from "./reportWebVitals";
 import Home from "./Page/Home/Home";
 import ReLog from "./Page/Register&Login/Register&Login";
@@ -14,11 +14,18 @@ import SingleMovie from "./Page/Classify/PhimLe/SingleMovies";
 import Series from "./Page/Classify/PhimBo/Series";
 import TvShow from "./Page/Classify/TvShow/TvShow";
 import TheateMovie from "./Page/Classify/PhimChieuRap/TheateMovie";
+<<<<<<< HEAD
 import WatchMovie from "./Page/Classify/PhimLe/WatchMovie";
 import Detail from "./Page/Detail/Detail";
 import Play from "./Page/Detail/Play";
 
 import MovieDetail from "./Page/Classify/PhimLe/MovieDetail";
+=======
+import WatchMovie from "./Page/Classify/PhimBo/WatchMovie";
+import MovieCard from "./Page/Classify/PhimBo/MovieCard";
+
+import Detail from "./Page/Detail/Detail";
+>>>>>>> 3c8033d94f9073c5a1e0d5c74b5e8a6a163856db
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -26,7 +33,9 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route element={<ItemOutlet />}>
+        <Route path="phim/:id" element={<MovieDetail />} />
           <Route path="/" element={<Home />} />
+           <Route path="watch/:id" element={<WatchMovie />} /> 
           <Route path="tham-gia" element={<ReLog />} />
           <Route path="quan-tri-vien" element={<Manager />} />
           <Route path="phim-le" element={<SingleMovie />} />
@@ -35,12 +44,18 @@ root.render(
           <Route path="the-loai/:genre" element={<Classtify />} />
           <Route path="tvshow" element={<TvShow />} />
           <Route path="phim-chieu-rap" element={<TheateMovie />} />
+<<<<<<< HEAD
           <Route path="/watch" element={<WatchMovie />} />
           <Route path="/movie-detail" element={<MovieDetail />} />
           <Route path="chi-tiet/:id" element={<Detail />} />
           <Route path="xem-phim/:id" element={<Play />} />
           <Route path="singleMovies/movie/:id" element={<MovieDetail />} />
 
+=======
+
+          <Route path="phim/:id" element={<Detail />} />
+          <Route path="watch/:id" element={<Watch />} />
+>>>>>>> 3c8033d94f9073c5a1e0d5c74b5e8a6a163856db
         </Route>
       </Routes>
     </BrowserRouter>
