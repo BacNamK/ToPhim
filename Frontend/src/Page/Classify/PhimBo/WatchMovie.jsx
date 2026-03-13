@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./watchMovie.css";
 
 /* VIDEO */
@@ -42,6 +42,7 @@ import p17 from "./img/17.jpg";
 function WatchMovie(){
 
 const { id } = useParams();
+const navigate = useNavigate();
 const movieId = Number(id);
 
 const movies = {
@@ -193,6 +194,11 @@ return <h1 style={{color:"white"}}>Không tìm thấy phim</h1>
 return(
 
 <div className="watch-container">
+
+{/* TITLE */}
+<h1 className="watch-title">
+{movie.name}
+</h1>
 
 {/* VIDEO */}
 <div className="video-wrapper">

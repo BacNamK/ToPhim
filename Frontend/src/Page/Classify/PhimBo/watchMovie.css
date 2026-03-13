@@ -1,6 +1,7 @@
 /* TỔNG THỂ - Nâng cấp Gradient mượt hơn */
 .watch-container {
     padding: 30px 5%;
+     padding-top: 90px;
     background: radial-gradient(circle at 20% 0%, #1e2a4a 0%, #070d14 100%);
     min-height: 100vh;
     color: #e0e6ed;
@@ -205,3 +206,11 @@ max-width:100%;
 }
 
 }
+.watch-title{
+font-size:24px;
+font-weight:700;
+color:#fff;
+margin-bottom:15px;
+letter-spacing:0.3px;
+}
+

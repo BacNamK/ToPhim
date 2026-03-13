@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./movieDetail.css";
 
 
+
 // --- IMPORT ẢNH ---
 import img1 from "./img/1.jpg";
  import img2 from "./img/2.jpg"; 
@@ -133,7 +134,7 @@ function MovieDetail() {
 
   {/* NÚT QUAY LẠI */}
   <div className="back-btn" onClick={() => navigate(-1)}>
-    ← TRỞ VỀ DANH SÁCH
+    ← trở lại trang phim bộ 
   </div>
       <div className="detail-overlay"></div>
       <div className="movie-layout">

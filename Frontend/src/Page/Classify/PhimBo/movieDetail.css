@@ -610,22 +610,22 @@ transform:translateY(-2px);
 }
 .btn-close-rating:hover { background-color: #edf2f7; }
 .back-btn{
-position:absolute;
-top:90px;
+position:fixed;   
+top:40px;
 left:40px;
 
 padding:8px 16px;
-background:rgba(20,30,45,0.85);
+background:rgba(20,30,45,0.9);
 
-color:#fbc02d;
+color:#ffd000;
 font-size:16px;
 font-weight:600;
 
 border-radius:8px;
 cursor:pointer;
-z-index:10;
+z-index:9999;   /* tăng z-index */
 
-display:inline-flex;
+display:flex;
 align-items:center;
 gap:8px;
 
@@ -633,6 +633,6 @@ transition:0.2s;
 }
 
 .back-btn:hover{
-background:rgba(30,40,60,0.95);
+background:#1e293b;
 transform:translateX(-3px);
 }

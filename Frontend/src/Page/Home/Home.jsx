@@ -12,7 +12,7 @@ import {
 import BgImage from "../../image/ImageTest1.jpg";
 import playicon from "../../image/play.png";
 
-import playicon from "../../image/play.png";
+
 
 import Image from "../../image/ImageTest1.jpg";
 
